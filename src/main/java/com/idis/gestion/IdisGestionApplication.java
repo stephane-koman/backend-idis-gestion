@@ -95,12 +95,14 @@ public class IdisGestionApplication extends SpringBootServletInitializer impleme
         personneRepository.updateMatricule(employe.getId(), matricule);
 
         roleRepository.save(new Role("ADMIN", new Date(), new Date(), 1));
+        roleRepository.save(new Role("CLIENT", new Date(), new Date(), 1));
+        roleRepository.save(new Role("EMPLOYE", new Date(), new Date(), 1));
 
         utilisateurService.saveUser(new Utilisateur("admin", "1234", new Date(), new Date(), 1, employe));
 
         utilisateurService.addRoleToUser("admin", "ADMIN");
 
-        personneService.saveClient(new Client("KOMAN STEPHANE", "47897262", "stefchris2@gmail.com", "12 RUE PARIS", new Date(), new Date(), 1, null));
+        personneService.saveClient(new Client("KOFFI ANDRE", "47897262", "stefchris2@gmail.com", "12 RUE PARIS", new Date(), new Date(), 1, null));
     }
 
 }
