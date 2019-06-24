@@ -1,11 +1,7 @@
 package com.idis.gestion.web;
 
-import com.idis.gestion.entities.Client;
-import com.idis.gestion.entities.Employe;
 import com.idis.gestion.entities.Role;
 import com.idis.gestion.entities.Utilisateur;
-import com.idis.gestion.service.PersonneService;
-import com.idis.gestion.service.RoleService;
 import com.idis.gestion.service.UtilisateurService;
 import com.idis.gestion.service.pagination.PageUtilisateur;
 import com.idis.gestion.web.controls.HeadersControls;
@@ -17,8 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 @RestController
 @RequestMapping("/api")
@@ -27,15 +21,9 @@ public class UtilisateurRestController {
     @Autowired
     private UtilisateurService utilisateurService;
 
-    @Autowired
-    private PersonneService personneService;
-
-    @Autowired
-    private RoleService roleService;
-
     private HeadersControls headersControls = new HeadersControls();
 
-    @PostMapping("/user/add-user")
+    @PostMapping("/admin/add-user")
     public Utilisateur addUtilisateur(@RequestBody RegisterForm userForm) {
 
         if (!userForm.getPassword().equals(userForm.getRepassword()))
@@ -63,42 +51,27 @@ public class UtilisateurRestController {
         System.out.println(user.getId() + ":" + user.getUsername());
 
         if (userForm.getRoles().size() != 0) {
-            //AtomicBoolean hasRoleAdminOrUser = new AtomicBoolean(false);
+
             userForm.getRoles().forEach(r -> {
 
                 utilisateurService.addRoleToUser(user.getUsername(), r.getRoleName());
 
-                /*if (r.getRoleName().equals("ADMIN") || r.getRoleName().equals("USER")) {
-                    if (hasRoleAdminOrUser.get()) return;
-                    Employe employe = new Employe();
-                    employe.setUtilisateur(user);
-                    personneService.saveEmploye(employe);
-                    hasRoleAdminOrUser.set(true);
-                }
-                if (r.getRoleName().equals("CLIENT")) {
-                    Client client = new Client();
-                    client.setUtilisateur(user);
-                    personneService.saveClient(client);
-                }*/
             });
         }
         return user;
     }
 
-    @GetMapping(value = "/user/search-users")
+    @GetMapping(value = "/admin/search-users")
     public PageUtilisateur searchUtilisateurs(
-            @RequestHeader(value = "Authorization") String jwt,
             @RequestParam(name = "username", defaultValue = "") String username,
             @RequestParam(name = "roles", defaultValue = "") String role,
             @RequestParam(name = "enable", defaultValue = "1") int enable,
             Pageable pageable
     ) {
-        int actif = headersControls.getIsAdmin(jwt, enable);
-        System.out.println(role);
-        return utilisateurService.listUsers(username, role, actif, pageable);
+        return utilisateurService.listUsers(username, role, enable, pageable);
     }
 
-    @GetMapping(value = "/user/take-user")
+    @GetMapping(value = "/admin/take-user")
     public Utilisateur getUtilisateur(
             @RequestParam(name = "id", defaultValue = "") Long id
     ) {
@@ -115,7 +88,7 @@ public class UtilisateurRestController {
         return utilisateur;
     }
 
-    @PostMapping("/user/update-user")
+    @PostMapping("/admin/update-user")
     public Utilisateur updateUtilisateur(
             @RequestBody RegisterForm userForm
     ) {
@@ -142,7 +115,7 @@ public class UtilisateurRestController {
         return utilisateurService.findUserById(userForm.getId());
     }
 
-    @PostMapping(value = "/user/disable-user")
+    @PostMapping(value = "/admin/disable-user")
     public boolean disableUtilisateur(
             @RequestBody Utilisateur utilisateur
     ) {

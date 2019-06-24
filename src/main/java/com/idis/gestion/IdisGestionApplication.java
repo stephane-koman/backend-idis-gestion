@@ -67,8 +67,7 @@ public class IdisGestionApplication extends SpringBootServletInitializer impleme
 
     @Override
     public void run(String... args) throws Exception {
-
-        Pays pays1 = paysService.savePays(new Pays("Côte d'ivoire", "CI", new Date(), new Date(), 1));
+        /*Pays pays1 = paysService.savePays(new Pays("Côte d'ivoire", "CI", new Date(), new Date(), 1));
         Pays pays2 = paysService.savePays(new Pays("France", "FR", new Date(), new Date(), 1));
 
         Tva tva1 = tvaService.saveTva(new Tva(0.18,"TVA Côte d'Ivoire", new Date(), new Date(), 1));
@@ -103,6 +102,6 @@ public class IdisGestionApplication extends SpringBootServletInitializer impleme
         utilisateurService.addRoleToUser("admin", "ADMIN");
 
         personneService.saveClient(new Client("KOFFI ANDRE", "47897262", "stefchris2@gmail.com", "12 RUE PARIS", new Date(), new Date(), 1, null));
-    }
+    */}
 
 }
