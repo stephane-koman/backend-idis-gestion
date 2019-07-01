@@ -1,7 +1,6 @@
 package com.idis.gestion.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -14,6 +13,7 @@ public class DetailsColis {
     private Long id;
     private int quantite;
     private int poids;
+    private double prixUnitaire;
     private String designation;
     @Column(columnDefinition = "text")
     private String description;
@@ -30,9 +30,10 @@ public class DetailsColis {
     public DetailsColis() {
     }
 
-    public DetailsColis(int quantite, int poids, String designation, String description, Date createAt, Date updateAt, int enable) {
+    public DetailsColis(int quantite, int poids, double prixUnitaire, String designation, String description, Date createAt, Date updateAt, int enable) {
         this.quantite = quantite;
         this.poids = poids;
+        this.prixUnitaire = prixUnitaire;
         this.designation = designation;
         this.description = description;
         this.createAt = createAt;
@@ -62,6 +63,14 @@ public class DetailsColis {
 
     public void setPoids(int poids) {
         this.poids = poids;
+    }
+
+    public double getPrixUnitaire() {
+        return prixUnitaire;
+    }
+
+    public void setPrixUnitaire(double prixUnitaire) {
+        this.prixUnitaire = prixUnitaire;
     }
 
     public String getDesignation() {

@@ -19,9 +19,6 @@ public class DetailsColisImpl implements DetailsColisService {
     @Autowired
     private DetailsColisRepository detailsColisRepository;
 
-    @Autowired
-    private LigneFactureRepository ligneFactureRepository;
-
     @Override
     public List<DetailsColis> listDetailsColis(int enable) {
         return detailsColisRepository.findAllDetailsColis(enable);
@@ -44,6 +41,7 @@ public class DetailsColisImpl implements DetailsColisService {
     public DetailsColis updateDetailsColis(DetailsColis d) {
         DetailsColis detailsColis = detailsColisRepository.getDetailsColisById(d.getId());
         if(detailsColis == null) throw new RuntimeException("Aucun détails colis trouvé");
+        detailsColis.setPrixUnitaire(d.getPrixUnitaire());
         detailsColis.setDescription(d.getDescription());
         detailsColis.setDesignation(d.getDesignation());
         detailsColis.setColis(d.getColis());

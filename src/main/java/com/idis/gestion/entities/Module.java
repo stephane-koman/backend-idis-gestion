@@ -6,7 +6,7 @@ import java.util.Collection;
 import java.util.Date;
 
 @Entity
-public class Menu {
+public class Module {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -22,9 +22,9 @@ public class Menu {
     private Collection<Role> roles = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.EAGER)
-    private Collection<Menu> menus = new ArrayList<>();
+    private Collection<Module> modules = new ArrayList<>();
 
-    public Menu() {
+    public Module() {
     }
 
     public Long getId() {
@@ -91,11 +91,11 @@ public class Menu {
         this.roles = roles;
     }
 
-    public Collection<Menu> getMenus() {
-        return menus;
+    public Collection<Module> getModules() {
+        return modules;
     }
 
-    public void setMenus(Collection<Menu> menus) {
-        this.menus = menus;
+    public void setModules(Collection<Module> modules) {
+        this.modules = modules;
     }
 }
