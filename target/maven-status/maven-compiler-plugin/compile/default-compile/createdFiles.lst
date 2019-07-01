@@ -107,6 +107,7 @@ com/idis/gestion/service/impl/FonctionServiceImpl.class
 com/idis/gestion/service/TypeFactureService.class
 com/idis/gestion/entities/ExpeditionColis.class
 com/idis/gestion/service/pagination/PageColis.class
+com/idis/gestion/entities/Module.class
 com/idis/gestion/web/ReglementRestController.class
 com/idis/gestion/entities/Role.class
 com/idis/gestion/service/pagination/PageEmploye.class

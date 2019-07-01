@@ -31,6 +31,7 @@
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/dao/PersonneRepository.java
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/entities/Personne.java
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/service/TvaService.java
+/home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/entities/Module.java
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/dao/LivraisonColisRepository.java
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/entities/Reglement.java
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/service/impl/UserDetailsServiceImpl.java
