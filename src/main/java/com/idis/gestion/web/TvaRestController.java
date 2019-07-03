@@ -50,7 +50,7 @@ public class TvaRestController {
 
     @PostMapping("/user/add-tva")
     public Tva addTva(@RequestBody Tva tva){
-        if(tva.getValeurTva() <= 0) throw new RuntimeException("Le valeur de la tva ne peut être négative");
+        if(tva.getValeurTva() < 0) throw new RuntimeException("Le valeur de la tva ne peut être négative");
         return tvaService.saveTva(tva);
     }
 
