@@ -17,6 +17,9 @@ public class Facture extends Mouvement {
 
     private Date dateEcheance;
 
+    @Column(name = "exonere", columnDefinition = "TINYINT default 0", length = 1)
+    private int exonere;
+
     @OneToOne
     private TypeFacture typeFacture;
 
@@ -35,12 +38,13 @@ public class Facture extends Mouvement {
     public Facture() {
     }
 
-    public Facture(double credit, double debit, Date createAt, Date updateAt, int enable, Site site, Colis colis, Devise devise, Utilisateur utilisateur, String numeroFacture, Date dateEcheance, TypeFacture typeFacture, Tva tva) {
+    public Facture(double credit, double debit, int exonere, Date createAt, Date updateAt, int enable, Site site, Colis colis, Devise devise, Utilisateur utilisateur, String numeroFacture, Date dateEcheance, TypeFacture typeFacture, Tva tva) {
         super(credit, debit, createAt, updateAt, enable, site, colis, devise, utilisateur);
         this.numeroFacture = numeroFacture;
         this.dateEcheance = dateEcheance;
         this.typeFacture = typeFacture;
         this.tva = tva;
+        this.exonere = exonere;
     }
 
     public String getNumeroFacture() {
@@ -81,6 +85,14 @@ public class Facture extends Mouvement {
 
     public void setTva(Tva tva) {
         this.tva = tva;
+    }
+
+    public int getExonere() {
+        return exonere;
+    }
+
+    public void setExonere(int exonere) {
+        this.exonere = exonere;
     }
 
     public Collection<Reglement> getReglements() {

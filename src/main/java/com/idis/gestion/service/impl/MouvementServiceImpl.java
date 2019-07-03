@@ -72,7 +72,7 @@ public class MouvementServiceImpl implements MouvementService {
 
         removeLigneFacture(facture);
 
-        double montant = updateLigneFacture(f.getLigneFactures(), facture);
+        double montant = addLigneFacture(f.getLigneFactures(), facture);
 
         switch (facture.getTypeFacture().getNomTypeFacture().toLowerCase()) {
             case "facture":
@@ -145,6 +145,7 @@ public class MouvementServiceImpl implements MouvementService {
             lFactures.forEach((lf) -> {
                 lf.setFacture(facture);
                 LigneFacture ligneFacture;
+                lf.setPrixTotal(lf.getPrixUnitaire()*lf.getDetailsColis().getPoids());
                 lf.setCreateAt(new Date());
                 lf.setUpdateAt(new Date());
                 ligneFacture = ligneFactureRepository.save(lf);
@@ -153,10 +154,11 @@ public class MouvementServiceImpl implements MouvementService {
             });
             facture.setLigneFactures(lignesFacture);
         }
-        return (1 + facture.getTva().getValeurTva()) * montant[0];
+        //return (1 + facture.getTva().getValeurTva()) * montant[0];
+        return montant[0];
     }
 
-    private double updateLigneFacture(Collection<LigneFacture> lFactures, Facture facture) {
+    /*private double updateLigneFacture(Collection<LigneFacture> lFactures, Facture facture) {
         List<LigneFacture> lignesFacture = new ArrayList<>();
         double[] montant = new double[1];
         montant[0] = 0;
@@ -164,6 +166,7 @@ public class MouvementServiceImpl implements MouvementService {
             lFactures.forEach((lf) -> {
                 lf.setFacture(facture);
                 LigneFacture ligneFacture;
+                lf.setPrixTotal(lf.getPrixUnitaire()*lf.getDetailsColis().getPoids());
                 lf.setUpdateAt(new Date());
                 ligneFacture = ligneFactureRepository.save(lf);
                 lignesFacture.add(ligneFacture);
@@ -171,8 +174,8 @@ public class MouvementServiceImpl implements MouvementService {
             });
             facture.setLigneFactures(lignesFacture);
         }
-        return montant[0];
-    }
+        return (1 + facture.getTva().getValeurTva()) * montant[0];
+    }*/
 
     private void removeLigneFacture(Facture facture) {
         if (facture.getLigneFactures().size() > 0) {
