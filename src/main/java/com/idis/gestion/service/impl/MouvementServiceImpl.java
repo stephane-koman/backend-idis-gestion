@@ -154,8 +154,7 @@ public class MouvementServiceImpl implements MouvementService {
             });
             facture.setLigneFactures(lignesFacture);
         }
-        //return (1 + facture.getTva().getValeurTva()) * montant[0];
-        return montant[0];
+        return (1 + facture.getTva().getValeurTva()) * montant[0];
     }
 
     /*private double updateLigneFacture(Collection<LigneFacture> lFactures, Facture facture) {
