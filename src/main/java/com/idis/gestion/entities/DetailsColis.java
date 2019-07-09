@@ -14,6 +14,7 @@ public class DetailsColis {
     private int quantite;
     private int poids;
     private double prixUnitaire;
+    private double prixTotal;
     private String designation;
     @Column(columnDefinition = "text")
     private String description;
@@ -71,6 +72,14 @@ public class DetailsColis {
 
     public void setPrixUnitaire(double prixUnitaire) {
         this.prixUnitaire = prixUnitaire;
+    }
+
+    public double getPrixTotal() {
+        return prixTotal;
+    }
+
+    public void setPrixTotal(double prixTotal) {
+        this.prixTotal = prixTotal;
     }
 
     public String getDesignation() {

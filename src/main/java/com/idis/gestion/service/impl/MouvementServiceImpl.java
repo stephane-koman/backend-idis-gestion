@@ -1,40 +1,57 @@
 package com.idis.gestion.service.impl;
 
-import com.idis.gestion.dao.LigneFactureRepository;
 import com.idis.gestion.dao.MouvementRepository;
+import com.idis.gestion.entities.DetailsColis;
 import com.idis.gestion.entities.Facture;
-import com.idis.gestion.entities.LigneFacture;
-import com.idis.gestion.entities.Mouvement;
 import com.idis.gestion.entities.generator.NumeroAvoirGenerator;
 import com.idis.gestion.entities.generator.NumeroFactureGenerator;
+import com.idis.gestion.service.ColisService;
 import com.idis.gestion.service.MouvementService;
 import com.idis.gestion.service.pagination.PageFacture;
-import com.idis.gestion.service.pagination.PageMouvement;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
-import java.util.concurrent.atomic.AtomicReference;
+import java.io.*;
+import java.net.URL;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.*;
+
+import static net.sf.jasperreports.engine.JasperCompileManager.compileReport;
 
 @Service
 @Transactional
 public class MouvementServiceImpl implements MouvementService {
 
+    private final org.slf4j.Logger log = LoggerFactory.getLogger(this.getClass());
+
     @Autowired
     private MouvementRepository mouvementRepository;
 
     @Autowired
-    private LigneFactureRepository ligneFactureRepository;
+    private ColisService colisService;
 
+    @Autowired
+    @Qualifier("jdbcTemplate")
+    private JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    private ResourceLoader  resourceLoader;
+
+    @Value("classpath:logo.jpg")
+    private Resource res;
 
     @Override
     public Facture saveFacture(Facture f) {
@@ -43,7 +60,7 @@ public class MouvementServiceImpl implements MouvementService {
 
         Facture facture = mouvementRepository.save(f);
 
-        double montant = addLigneFacture(f.getLigneFactures(), facture);
+        double montant = montantFacture(facture);
 
         switch (facture.getTypeFacture().getNomTypeFacture().toLowerCase()) {
             case "facture":
@@ -70,9 +87,7 @@ public class MouvementServiceImpl implements MouvementService {
         Facture facture = mouvementRepository.getFactureByNumeroFacture(f.getNumeroFacture());
         if (facture == null) throw new RuntimeException("Cette facture n'existe pas");
 
-        removeLigneFacture(facture);
-
-        double montant = addLigneFacture(f.getLigneFactures(), facture);
+        double montant = montantFacture(f);
 
         switch (facture.getTypeFacture().getNomTypeFacture().toLowerCase()) {
             case "facture":
@@ -85,6 +100,7 @@ public class MouvementServiceImpl implements MouvementService {
                 throw new RuntimeException("Cette facture ne peut être enregistréé");
         }
 
+        facture.getColis().setDetailsColis(f.getColis().getDetailsColis());
         facture.setUpdateAt(new Date());
         facture.setDateEcheance(f.getDateEcheance());
 
@@ -131,56 +147,41 @@ public class MouvementServiceImpl implements MouvementService {
     public void removeFactureById(Long id) {
         Facture facture = mouvementRepository.getFactureById(id);
         if (facture == null) throw new RuntimeException("Cette transaction n'existe pas");
-        removeLigneFacture(facture);
         mouvementRepository.removeFactureById(id);
     }
 
     // --------------------------- PRIVATE FUNCTIONS ---------------------------------------
 
-    private double addLigneFacture(Collection<LigneFacture> lFactures, Facture facture) {
-        List<LigneFacture> lignesFacture = new ArrayList<>();
+    private double montantFacture(Facture facture) {
         double[] montant = new double[1];
-        montant[0] = 0;
-        if (lFactures.size() > 0) {
-            lFactures.forEach((lf) -> {
-                lf.setFacture(facture);
-                LigneFacture ligneFacture;
-                lf.setPrixTotal(lf.getPrixUnitaire()*lf.getDetailsColis().getPoids());
-                lf.setCreateAt(new Date());
-                lf.setUpdateAt(new Date());
-                ligneFacture = ligneFactureRepository.save(lf);
-                lignesFacture.add(ligneFacture);
-                montant[0] += lf.getPrixTotal();
-            });
-            facture.setLigneFactures(lignesFacture);
-        }
+        montant[0] = colisService.updateDetailsColis(facture.getColis().getDetailsColis(), facture.getColis());
         return (1 + facture.getTva().getValeurTva()) * montant[0];
     }
 
-    /*private double updateLigneFacture(Collection<LigneFacture> lFactures, Facture facture) {
-        List<LigneFacture> lignesFacture = new ArrayList<>();
-        double[] montant = new double[1];
-        montant[0] = 0;
-        if (lFactures.size() > 0) {
-            lFactures.forEach((lf) -> {
-                lf.setFacture(facture);
-                LigneFacture ligneFacture;
-                lf.setPrixTotal(lf.getPrixUnitaire()*lf.getDetailsColis().getPoids());
-                lf.setUpdateAt(new Date());
-                ligneFacture = ligneFactureRepository.save(lf);
-                lignesFacture.add(ligneFacture);
-                montant[0] += lf.getPrixTotal();
-            });
-            facture.setLigneFactures(lignesFacture);
-        }
-        return (1 + facture.getTva().getValeurTva()) * montant[0];
-    }*/
+    @Override
+    public JasperPrint exportFacturePdf(String numeroFacture) throws SQLException{
+        Connection conn = jdbcTemplate.getDataSource().getConnection();
+        JasperPrint jasperPrint = null;
+        try {
+            //URL image_url = this.getClass().getResource("/var/www/html/images/logo.jpg");
+            //File jrxml = new File("/var/www/html/images/facture.jrxml");
+            //InputStream jasperStream = new DataInputStream(new FileInputStream(jrxml));
+            //String path = resourceLoader.getResource("classpath:facture.jrxml").getURI().getPath();
+            InputStream jasperStream = this.getClass().getResourceAsStream("/report/facture.jrxml");
+            JasperDesign design = JRXmlLoader.load(jasperStream);
+            JasperReport jasperReport = compileReport(design);
 
-    private void removeLigneFacture(Facture facture) {
-        if (facture.getLigneFactures().size() > 0) {
-            facture.getLigneFactures().forEach((lf) -> {
-                ligneFactureRepository.removeLigneFactureById(lf.getId());
-            });
+            Map<String, Object> parameters = new HashMap<>();
+
+            parameters.put("numero_facture", numeroFacture);
+            //parameters.put("logo", image_url.getPath());
+
+            jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, conn);
+
+        } catch (JRException e) {
+            log.info("Error loading file jrxml");
         }
+        conn.close();
+        return jasperPrint;
     }
 }

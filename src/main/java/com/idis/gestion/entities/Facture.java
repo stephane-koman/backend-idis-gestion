@@ -27,8 +27,8 @@ public class Facture extends Mouvement {
     @JoinColumn(name = "code_tva")
     private Tva tva;
 
-    @OneToMany(mappedBy = "facture", fetch = FetchType.LAZY)
-    private Collection<LigneFacture> ligneFactures = new ArrayList<>();
+    /*@OneToMany(mappedBy = "facture", fetch = FetchType.LAZY)
+    private Collection<LigneFacture> ligneFactures = new ArrayList<>();*/
 
     @JsonIgnore
     @OneToMany(mappedBy = "facture", fetch = FetchType.LAZY)
@@ -61,14 +61,6 @@ public class Facture extends Mouvement {
 
     public void setDateEcheance(Date dateEcheance) {
         this.dateEcheance = dateEcheance;
-    }
-
-    public Collection<LigneFacture> getLigneFactures() {
-        return ligneFactures;
-    }
-
-    public void setLigneFactures(Collection<LigneFacture> ligneFactures) {
-        this.ligneFactures = ligneFactures;
     }
 
     public TypeFacture getTypeFacture() {

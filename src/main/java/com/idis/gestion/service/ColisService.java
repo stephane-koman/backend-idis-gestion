@@ -1,16 +1,27 @@
 package com.idis.gestion.service;
 
 import com.idis.gestion.entities.Colis;
+import com.idis.gestion.entities.DetailsColis;
 import com.idis.gestion.entities.Utilisateur;
 import com.idis.gestion.service.pagination.PageColis;
+import net.sf.jasperreports.engine.JasperPrint;
 import org.springframework.data.domain.Pageable;
 
+import java.sql.SQLException;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
 public interface ColisService {
 
+    public JasperPrint exportQrCodePdf(String referenceColis) throws SQLException;
+
     public Colis saveColis(Colis c, String codeSite);
+
+    public void addDetailsColis(Collection<DetailsColis> dColis, Colis colis);
+    public double updateDetailsColis(Collection<DetailsColis> dColis, Colis colis);
+
+    public void removeDetailsColis(Colis colis);
 
     public Colis findColisByReference(String ref);
 

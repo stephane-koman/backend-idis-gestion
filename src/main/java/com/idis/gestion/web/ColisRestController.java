@@ -6,10 +6,17 @@ import com.idis.gestion.service.PersonneService;
 import com.idis.gestion.service.UtilisateurService;
 import com.idis.gestion.service.pagination.PageColis;
 import com.idis.gestion.web.controls.HeadersControls;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperPrint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
@@ -118,6 +125,27 @@ public class ColisRestController {
             @RequestParam(name = "reference", defaultValue = "") String reference
     ){
         return colisService.findColisByReference(reference);
+    }
+
+    @GetMapping(value = "/user/qrcode-pdf")
+    public @ResponseBody void getQrCodePDF(
+            @RequestParam(name = "referenceColis", defaultValue = "") String referenceColis,
+            HttpServletResponse response
+    ){
+
+        try {
+
+            response.setContentType("application/pdf");
+            response.setHeader("Content-Disposition", "attachment; filename=\"qrcode.pdf\"");
+
+            final OutputStream out = response.getOutputStream();
+            JasperPrint print = colisService.exportQrCodePdf(referenceColis);
+            JasperExportManager.exportReportToPdfStream(print, out);
+
+        } catch (SQLException | IOException | JRException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @PostMapping(value = "/user/update-colis")

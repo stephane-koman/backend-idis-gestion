@@ -37,7 +37,6 @@
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/service/impl/UserDetailsServiceImpl.java
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/dao/DetailsColisRepository.java
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/dao/TvaRepository.java
-/home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/service/impl/LigneFactureServiceImpl.java
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/service/impl/TvaServiceImpl.java
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/entities/Employe.java
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/entities/Devise.java
@@ -52,7 +51,6 @@
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/service/TypeReglementService.java
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/service/pagination/PageFonction.java
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/entities/LivraisonColis.java
-/home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/service/LigneFactureService.java
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/service/FonctionService.java
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/dao/ColisRepository.java
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/security/SecurityConstants.java
@@ -67,6 +65,7 @@
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/web/MouvementRestController.java
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/dao/ImageRepository.java
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/web/forms/RegisterForm.java
+/home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/config/WebConfig.java
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/entities/Tva.java
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/entities/generator/NumeroAvoirGenerator.java
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/service/TypeFactureService.java
@@ -88,7 +87,6 @@
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/entities/generator/NumeroFactureGenerator.java
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/web/UtilisateurRestController.java
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/web/TypeReglementRestController.java
-/home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/entities/LigneFacture.java
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/service/impl/ImageServiceImpl.java
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/web/ReglementRestController.java
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/service/impl/PersonneServiceImpl.java
@@ -114,7 +112,6 @@
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/security/JWTAuthenticationFilter.java
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/service/pagination/PageUtilisateur.java
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/service/DetailsColisService.java
-/home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/dao/LigneFactureRepository.java
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/web/controls/HeadersControls.java
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/dao/FonctionRepository.java
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/service/impl/FonctionServiceImpl.java

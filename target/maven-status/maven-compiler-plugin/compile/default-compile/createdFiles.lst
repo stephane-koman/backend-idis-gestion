@@ -7,7 +7,6 @@ com/idis/gestion/dao/ImageRepository.class
 com/idis/gestion/entities/Devise.class
 com/idis/gestion/web/SiteRestController.class
 com/idis/gestion/dao/DeviseRepository.class
-com/idis/gestion/service/LigneFactureService.class
 com/idis/gestion/entities/Client.class
 com/idis/gestion/entities/generator/NumeroAvoirGenerator.class
 com/idis/gestion/entities/LivraisonColis.class
@@ -35,7 +34,6 @@ com/idis/gestion/web/MouvementRestController.class
 com/idis/gestion/service/impl/SiteServiceImpl.class
 com/idis/gestion/web/TypeFactureRestController.class
 com/idis/gestion/security/SecurityConstants.class
-com/idis/gestion/entities/LigneFacture.class
 com/idis/gestion/entities/TypeReglement.class
 com/idis/gestion/entities/Tva.class
 com/idis/gestion/entities/generator/NumeroFactureGenerator.class
@@ -49,7 +47,6 @@ com/idis/gestion/service/pagination/PageTypeReglement.class
 com/idis/gestion/entities/Utilisateur.class
 com/idis/gestion/dao/PersonneRepository.class
 com/idis/gestion/service/pagination/PageSite.class
-com/idis/gestion/dao/LigneFactureRepository.class
 com/idis/gestion/entities/EnregistrementColis.class
 com/idis/gestion/service/pagination/PageFacture.class
 com/idis/gestion/dao/TypeReglementRepository.class
@@ -87,7 +84,6 @@ com/idis/gestion/service/impl/ImageServiceImpl.class
 com/idis/gestion/entities/generator/EmpMatrGenerator.class
 com/idis/gestion/service/impl/PaysServiceImpl.class
 com/idis/gestion/security/SecurityConfig.class
-com/idis/gestion/service/impl/LigneFactureServiceImpl.class
 com/idis/gestion/service/ImageService.class
 com/idis/gestion/entities/TypeFacture.class
 com/idis/gestion/entities/Employe.class

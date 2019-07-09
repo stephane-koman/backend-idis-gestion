@@ -1,9 +1,7 @@
 package com.idis.gestion.service.impl;
 
 import com.idis.gestion.dao.DetailsColisRepository;
-import com.idis.gestion.dao.LigneFactureRepository;
 import com.idis.gestion.entities.DetailsColis;
-import com.idis.gestion.entities.LigneFacture;
 import com.idis.gestion.service.DetailsColisService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,6 +40,7 @@ public class DetailsColisImpl implements DetailsColisService {
         DetailsColis detailsColis = detailsColisRepository.getDetailsColisById(d.getId());
         if(detailsColis == null) throw new RuntimeException("Aucun détails colis trouvé");
         detailsColis.setPrixUnitaire(d.getPrixUnitaire());
+        detailsColis.setPrixTotal(d.getPrixTotal());
         detailsColis.setDescription(d.getDescription());
         detailsColis.setDesignation(d.getDesignation());
         detailsColis.setColis(d.getColis());

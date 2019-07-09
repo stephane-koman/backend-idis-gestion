@@ -61,6 +61,8 @@ public class SiteServiceImpl implements SiteService {
 
         site.setNomSite(s.getNomSite());
         site.setContact(s.getContact());
+        site.setEmail(s.getEmail());
+        site.setSiret(s.getSiret());
         site.setAdresse(s.getAdresse());
         site.setDescription(s.getDescription());
         site.setTva(s.getTva());

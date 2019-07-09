@@ -20,6 +20,10 @@ public class Site {
     private String codeSite;
     @Column(length = 30)
     private String contact;
+    @Column(length = 60)
+    private String email;
+    @Column(length = 20)
+    private String siret;
     @Column(columnDefinition = "text")
     private String adresse;
     @Column(columnDefinition = "text")
@@ -162,6 +166,22 @@ public class Site {
 
     public void setDevise(Devise devise) {
         this.devise = devise;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getSiret() {
+        return siret;
+    }
+
+    public void setSiret(String siret) {
+        this.siret = siret;
     }
 
     public Collection<Employe> getEmployes() {

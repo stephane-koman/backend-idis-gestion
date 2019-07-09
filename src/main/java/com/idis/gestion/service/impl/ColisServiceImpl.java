@@ -7,20 +7,33 @@ import com.idis.gestion.service.ColisService;
 import com.idis.gestion.service.DetailsColisService;
 import com.idis.gestion.service.pagination.PageColis;
 import com.idis.gestion.web.controls.Count;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
+import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.*;
+
+import static net.sf.jasperreports.engine.JasperCompileManager.compileReport;
 
 @Service
 @Transactional
 public class ColisServiceImpl implements ColisService {
+
+    private final org.slf4j.Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private ColisRepository colisRepository;
@@ -42,6 +55,10 @@ public class ColisServiceImpl implements ColisService {
 
     @Autowired
     private LivraisonColisRepository livraisonColisRepository;
+
+    @Autowired
+    @Qualifier("jdbcTemplate")
+    private JdbcTemplate jdbcTemplate;
 
     @Override
     public Colis saveColis(Colis c, String codeSite) {
@@ -199,12 +216,37 @@ public class ColisServiceImpl implements ColisService {
         return colisRepository.save(colis);
     }
 
-    private void addDetailsColis(Collection<DetailsColis> dColis, Colis colis) {
+    @Override
+    public double updateDetailsColis(Collection<DetailsColis> dColis, Colis colis) {
+        List<DetailsColis> detailsColis = new ArrayList<>();
+        double[] montant = new double[1];
+        montant[0] = 0;
+        System.out.println("+++++++++++++++++++++++++ " + dColis.size() + " +++++++++++++++++++++++++");
+        if (dColis.size() > 0) {
+            dColis.forEach((dc) -> {
+                System.out.println("+++++++++++++++++++++++++ " + dc.getDesignation() + " +++++++++++++++++++++++++");
+                dc.setColis(colis);
+                DetailsColis deColis;
+                System.out.println("+++++++++++++++++++++++++ " + dc.getPrixUnitaire()  + " +++++++++++++++++++++++++");
+                dc.setPrixTotal(dc.getPrixUnitaire()*dc.getPoids());
+                deColis = detailsColisService.updateDetailsColis(dc);
+                System.out.println("+++++++++++++++++++++++++ " + deColis.getPrixUnitaire()  + " +++++++++++++++++++++++++");
+                detailsColis.add(deColis);
+                montant[0] += dc.getPrixTotal();
+            });
+            colis.setDetailsColis(detailsColis);
+        }
+        return montant[0];
+    }
+
+    @Override
+    public void addDetailsColis(Collection<DetailsColis> dColis, Colis colis) {
         List<DetailsColis> detailsColis = new ArrayList<>();
         if (dColis.size() > 0) {
             dColis.forEach((dc) -> {
                 dc.setColis(colis);
                 DetailsColis deColis;
+                dc.setPrixTotal(dc.getPrixUnitaire()*dc.getPoids());
                 deColis = detailsColisService.saveDetailsColis(dc);
                 detailsColis.add(deColis);
             });
@@ -212,7 +254,8 @@ public class ColisServiceImpl implements ColisService {
         }
     }
 
-    private void removeDetailsColis(Colis colis) {
+    @Override
+    public void removeDetailsColis(Colis colis) {
         if (colis.getDetailsColis().size() > 0) {
             colis.getDetailsColis().forEach((dc) -> {
                 detailsColisService.removeDetailsColisById(dc.getId());
@@ -391,5 +434,28 @@ public class ColisServiceImpl implements ColisService {
         return countString;
     }
 
+    @Override
+    public JasperPrint exportQrCodePdf(String referenceColis) throws SQLException {
+        Connection conn = jdbcTemplate.getDataSource().getConnection();
+        JasperPrint jasperPrint = null;
+        try {
+            InputStream jasperStream = this.getClass().getResourceAsStream("/report/qrcode.jrxml");
+            JasperDesign design = JRXmlLoader.load(jasperStream);
+            JasperReport jasperReport = compileReport(design);
+
+            Map<String, Object> parameters = new HashMap<>();
+
+            parameters.put("reference_colis", referenceColis);
+
+            jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, conn);
+
+        } catch (JRException e) {
+            log.info("Error loading file jrxml");
+        }
+
+        conn.close();
+
+        return jasperPrint;
+    }
 
 }
