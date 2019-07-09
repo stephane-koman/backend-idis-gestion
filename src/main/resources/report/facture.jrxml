@@ -330,7 +330,8 @@ WHERE
 		<band height="68" splitType="Stretch">
 			<image scaleImage="FillFrame">
 				<reportElement stretchType="RelativeToBandHeight" isPrintRepeatedValues="false" x="26" y="2" width="113" height="61" uuid="3910a879-e06d-41d4-95af-1e5879210ba2"/>
-				<imageExpression><![CDATA["/home/stephane/Documents/Reports/IMG-20190627-WA0000.jpg"]]></imageExpression>
+				<imageExpression><![CDATA["/var/app/logo.jpg"]]></imageExpression>
+<!--				<imageExpression><![CDATA["/home/stephane/Documents/Reports/IMG-20190627-WA0000.jpg"]]></imageExpression>-->
 			</image>
 			<textField>
 				<reportElement x="380" y="24" width="140" height="24" uuid="e719d5fd-f888-4c46-bd71-58e84381ce09"/>
