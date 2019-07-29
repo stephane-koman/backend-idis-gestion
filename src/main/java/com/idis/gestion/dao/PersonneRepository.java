@@ -33,11 +33,21 @@ public interface PersonneRepository extends PagingAndSortingRepository<Personne,
             "and (c.enable = :enable or :enable = 2) order by c.id desc ")
     public Page<Client> listClients(@Param("codeClient")String codeClient, @Param("raisonSociale")String raisonSociale,@Param("enable")int enable, Pageable pageable);
 
+    @Query("select c from Client c " +
+            "where (lower(c.codeClient) like lower(concat('%',:codeClient,'%'))) " +
+            "and ((lower(c.raisonSociale) like lower(concat('%',:raisonSociale,'%') )) or (c.raisonSociale is null)) order by c.id desc ")
+    public List<Client> listClientsByRaisonSociale(@Param("raisonSociale")String raisonSociale);
+
     @Query("select e from Employe e where (e.enable = :enable or :enable = 2)")
     public List<Employe> findAllEmployes(@Param("enable")int enable);
 
     @Query("select c from Client c where (c.enable = :enable or :enable = 2)")
     public List<Client> findAllClients(@Param("enable")int enable);
+
+    @Query("select c from Client c " +
+            "where (c.enable = :enable or :enable = 2) " +
+            "and ((lower(c.raisonSociale) like lower(concat('%',:raisonSociale,'%'))))")
+    public List<Client> findClientsByRaisonSociale(@Param("raisonSociale")String raisonSociale, @Param("enable")int enable);
 
     @Query("select e from Employe e where e.matricule = :matricule")
     public Employe getEmployeByMatricule(@Param("matricule")String matricule);

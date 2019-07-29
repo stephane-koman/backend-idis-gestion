@@ -46,6 +46,8 @@ public interface ColisService {
 
     public List<Colis> findAllSendColis(String nomSite, int enable);
 
+    public List<Colis> findSendColisByReference(String referenceColis, String nomSite, int enable);
+
     public PageColis receiveListColis(
             String reference,
             String nomClient,

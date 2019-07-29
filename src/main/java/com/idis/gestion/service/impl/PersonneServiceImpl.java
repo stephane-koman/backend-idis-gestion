@@ -102,6 +102,11 @@ public class PersonneServiceImpl implements PersonneService {
     }
 
     @Override
+    public List<Client> findClientsByRaisonSociale(String raisonSociale, int enable) {
+        return personneRepository.findClientsByRaisonSociale(raisonSociale, enable);
+    }
+
+    @Override
     public Employe getEmployeByMatricule(String matricule) {
         return personneRepository.getEmployeByMatricule(matricule);
     }
@@ -143,6 +148,12 @@ public class PersonneServiceImpl implements PersonneService {
         pClient.setTotalClients((int)clients.getTotalElements());
         pClient.setTotalPages(clients.getTotalPages());
         return pClient;
+    }
+
+    @Override
+    public List<Client> listClientsByRaisonSociale(String raisonSociale) {
+        List<Client> clients = personneRepository.listClientsByRaisonSociale(raisonSociale);
+        return null;
     }
 
     @Override

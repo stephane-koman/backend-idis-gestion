@@ -37,9 +37,20 @@ public interface MouvementRepository extends PagingAndSortingRepository<Facture,
 
     @Query("select DISTINCT f from Facture f " +
             "left join f.typeFacture tf " +
+            "left join f.colis.siteExpediteur s " +
             "where (f.enable = :enable or :enable = 2) " +
-            "and (LOWER(tf.nomTypeFacture) = 'facture')")
-    public List<Facture> findAllFactures(@Param("enable")int enable);
+            "and (LOWER(tf.nomTypeFacture) = 'facture') " +
+            "and (LOWER(s.nomSite) = :nomSite)"
+    )
+    public List<Facture> findAllFactures(@Param("nomSite")String nomSite, @Param("enable")int enable);
+
+    @Query("select f from Facture f " +
+            "left join f.colis.siteExpediteur s " +
+            "where (f.enable = :enable) " +
+            "and (LOWER(f.numeroFacture) like LOWER(CONCAT('%',:numeroFacture,'%'))) " +
+            "and (LOWER(s.nomSite) = :nomSite)"
+    )
+    public List<Facture> findFacturesByNumeroFacture(@Param("numeroFacture")String numeroFacture,@Param("nomSite")String nomSite, @Param("enable")int enable);
 
     @Query("select f from Facture f where f.numeroFacture = :numeroFacture")
     public Facture getFactureByNumeroFacture(@Param("numeroFacture")String numeroFacture);

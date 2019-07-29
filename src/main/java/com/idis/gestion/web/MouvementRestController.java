@@ -61,11 +61,26 @@ public class MouvementRestController {
     }
 
     @GetMapping(value = "/user/all-factures")
-    public List<Facture> allSendColis(
+    public List<Facture> allFactures(
             @RequestHeader(value = "Authorization") String jwt
     ){
         int actif = headersControls.getIsAdmin(jwt, 1);
-        return mouvementService.findAllFactures(actif);
+        String username = headersControls.getUsername(jwt);
+        Utilisateur utilisateur = utilisateurService.findUserByUsername(username);
+        Employe employe = personneService.getEmployeById(utilisateur.getPersonne().getId());
+        return mouvementService.findAllFactures(employe, actif);
+    }
+
+    @GetMapping(value = "/user/factures-by-numeroFacture")
+    public List<Facture> facturesByNumeroFacture(
+            @RequestHeader(value = "Authorization") String jwt,
+            @RequestParam(name = "numeroFacture", defaultValue = "") String numeroFacture
+    ){
+        int actif = headersControls.getIsAdmin(jwt, 1);
+        String username = headersControls.getUsername(jwt);
+        Utilisateur utilisateur = utilisateurService.findUserByUsername(username);
+        Employe employe = personneService.getEmployeById(utilisateur.getPersonne().getId());
+        return mouvementService.findFacturesByNumeroFacture(numeroFacture, employe, actif);
     }
 
     @GetMapping(value = "/user/take-facture")
@@ -104,10 +119,10 @@ public class MouvementRestController {
         String username = headersControls.getUsername(jwt);
         Utilisateur utilisateur = utilisateurService.findUserByUsername(username);
         if(utilisateur.getPersonne() == null) throw new RuntimeException("Vous n'êtes pas autorisé");
-        if(facture.getDateEcheance() != null){
+        /*if(facture.getDateEcheance() != null){
             Date newDate = new Date();
             if(facture.getDateEcheance().compareTo(newDate) < 0) throw new RuntimeException("La date d'échéance ne peut inférieure à la date actuelle");
-        }
+        }*/
         Employe employe = personneService.getEmployeById(utilisateur.getPersonne().getId());
         facture.setUtilisateur(utilisateur);
         facture.setDevise(employe.getSite().getDevise());

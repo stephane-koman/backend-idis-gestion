@@ -17,6 +17,9 @@ public class Facture extends Mouvement {
 
     private Date dateEcheance;
 
+    @Column(columnDefinition="double precision default 0")
+    private double montantFactureRegle;
+
     @Column(name = "exonere", columnDefinition = "TINYINT default 0", length = 1)
     private int exonere;
 
@@ -27,8 +30,9 @@ public class Facture extends Mouvement {
     @JoinColumn(name = "code_tva")
     private Tva tva;
 
-    /*@OneToMany(mappedBy = "facture", fetch = FetchType.LAZY)
-    private Collection<LigneFacture> ligneFactures = new ArrayList<>();*/
+    @ManyToOne
+    @JoinColumn(name = "reference_colis")
+    private Colis colis;
 
     @JsonIgnore
     @OneToMany(mappedBy = "facture", fetch = FetchType.LAZY)
@@ -38,13 +42,23 @@ public class Facture extends Mouvement {
     public Facture() {
     }
 
-    public Facture(double credit, double debit, int exonere, Date createAt, Date updateAt, int enable, Site site, Colis colis, Devise devise, Utilisateur utilisateur, String numeroFacture, Date dateEcheance, TypeFacture typeFacture, Tva tva) {
-        super(credit, debit, createAt, updateAt, enable, site, colis, devise, utilisateur);
+    public Facture(double credit, double debit, double montantFactureRegle, int exonere, Date createAt, Date updateAt, int enable, Site site, Colis colis, Devise devise, Utilisateur utilisateur, String numeroFacture, Date dateEcheance, TypeFacture typeFacture, Tva tva) {
+        super(credit, debit, createAt, updateAt, enable, site, devise, utilisateur);
         this.numeroFacture = numeroFacture;
         this.dateEcheance = dateEcheance;
         this.typeFacture = typeFacture;
         this.tva = tva;
+        this.colis = colis;
         this.exonere = exonere;
+        this.montantFactureRegle = montantFactureRegle;
+    }
+
+    public double getMontantFactureRegle() {
+        return montantFactureRegle;
+    }
+
+    public void setMontantFactureRegle(double montantFactureRegle) {
+        this.montantFactureRegle = montantFactureRegle;
     }
 
     public String getNumeroFacture() {
@@ -69,6 +83,14 @@ public class Facture extends Mouvement {
 
     public void setTypeFacture(TypeFacture typeFacture) {
         this.typeFacture = typeFacture;
+    }
+
+    public Colis getColis() {
+        return colis;
+    }
+
+    public void setColis(Colis colis) {
+        this.colis = colis;
     }
 
     public Tva getTva() {

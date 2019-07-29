@@ -11,7 +11,7 @@ public class Tva {
     @Id
     @GeneratedValue
     private Long id;
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
     private double valeurTva;
     @Column(columnDefinition = "text")
     private String description;

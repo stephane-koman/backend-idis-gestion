@@ -2,27 +2,30 @@ package com.idis.gestion.service.impl;
 
 import com.idis.gestion.dao.MouvementRepository;
 import com.idis.gestion.dao.ReglementRepository;
-import com.idis.gestion.entities.Mouvement;
+import com.idis.gestion.entities.Facture;
 import com.idis.gestion.entities.Reglement;
 import com.idis.gestion.service.ReglementService;
 import com.idis.gestion.service.pagination.PageReglement;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 
 @Service
-@Transactional
+@Transactional(rollbackFor = Exception.class)
 public class ReglementServiceImpl implements ReglementService {
 
-    @Autowired
-    private ReglementRepository reglementRepository;
+    private final ReglementRepository reglementRepository;
 
-    @Autowired
-    private MouvementRepository mouvementRepository;
+    private final MouvementRepository mouvementRepository;
+
+    public ReglementServiceImpl(ReglementRepository reglementRepository, MouvementRepository mouvementRepository) {
+        this.reglementRepository = reglementRepository;
+        this.mouvementRepository = mouvementRepository;
+    }
 
     @Override
     public Reglement saveReglement(Reglement r) {
@@ -31,6 +34,8 @@ public class ReglementServiceImpl implements ReglementService {
         r.setUpdateAt(new Date());
         r.setCredit(r.getMontantRegle());
 
+        updateMontantFactureRegle(r, r, false);
+
         return reglementRepository.save(r);
     }
 
@@ -38,13 +43,42 @@ public class ReglementServiceImpl implements ReglementService {
     public Reglement updateReglement(Reglement r) {
         Reglement reglement = reglementRepository.getReglementById(r.getId());
         if(reglement == null) throw new RuntimeException("Ce règlement n'existe pas");
+
+        updateMontantFactureRegle(r, reglement, true);
+
         reglement.setFacture(r.getFacture());
         reglement.setMontantRegle(r.getMontantRegle());
-        reglement.setCredit(r.getMontantRegle());
         reglement.setTypeReglement(r.getTypeReglement());
-        reglement.setColis(r.getFacture().getColis());
+        reglement.setCreateAt(r.getCreateAt());
         reglement.setUpdateAt(new Date());
-        return reglement;
+
+        return reglementRepository.save(reglement);
+    }
+
+    private void updateMontantFactureRegle(Reglement r, Reglement reglement, boolean update){
+
+        double[] montant = new double[1];
+        montant[0] = 0;
+
+        Facture f = mouvementRepository.getFactureByNumeroFacture(reglement.getFacture().getNumeroFacture());
+        f.getReglements().forEach(rg ->{
+            montant[0] += rg.getMontantRegle();
+        });
+
+        if(update){
+            if(f.getDebit() < montant[0] + r.getMontantRegle() - reglement.getMontantRegle()){
+                throw new RuntimeException("Le montant restant à régler est : " + (f.getDebit() - montant[0] + reglement.getMontantRegle()) + " " + f.getDevise().getNomDevise() );
+            }
+            montant[0] = montant[0] + r.getMontantRegle() - reglement.getMontantRegle();
+        }else{
+            if(f.getDebit() < montant[0] + r.getMontantRegle()){
+                throw new RuntimeException("Le montant restant à régler est : " + (f.getDebit() - montant[0]) + " " + f.getDevise().getNomDevise() );
+            }
+            montant[0] = montant[0] + r.getMontantRegle();
+        }
+
+        f.setMontantFactureRegle(montant[0]);
+        mouvementRepository.save(f);
     }
 
     @Override
@@ -82,6 +116,8 @@ public class ReglementServiceImpl implements ReglementService {
     public void removeReglementById(Long id) {
         Reglement reglement = reglementRepository.getReglementById(id);
         if(reglement == null) throw new RuntimeException("Ce règlement n'existe pas");
+        Facture f = reglement.getFacture();
+        f.setMontantFactureRegle(f.getMontantFactureRegle() - reglement.getMontantRegle());
         reglementRepository.removeReglementById(id);
     }
 }

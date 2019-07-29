@@ -98,6 +98,13 @@ public interface ColisRepository extends PagingAndSortingRepository<Colis,String
             "and (c.enable = :enable or :enable = 2)")
     public List<Colis> findAllSendColis(@Param("nomSite")String nomSite, @Param("enable") int enable);
 
+    @Query("select c from Colis c " +
+            "left join c.siteExpediteur site " +
+            "where lower(site.nomSite) = lower(:nomSite) " +
+            "and (c.enable = :enable or :enable = 2) " +
+            "and (lower(c.reference) like lower(concat('%',:reference,'%')))")
+    public List<Colis> findSendColisByReference(@Param("reference")String reference, @Param("nomSite")String nomSite, @Param("enable") int enable);
+
     public Colis findColisByReference(String ref);
 
     @Modifying

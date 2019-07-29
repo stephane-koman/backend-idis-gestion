@@ -14,6 +14,8 @@ import java.util.List;
 public interface PersonneService {
     public List<Employe> findAllEmployes(int enable);
     public List<Client> findAllClients(int enable);
+    public List<Client> findClientsByRaisonSociale(String raisonSociale, int enable);
+    public List<Client> listClientsByRaisonSociale(String raisonSociale);
     public Employe saveEmploye(Employe e);
     public Client saveClient(Client c);
     public Employe updateEmploye(Employe e);

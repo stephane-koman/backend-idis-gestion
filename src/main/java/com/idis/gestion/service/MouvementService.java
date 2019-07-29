@@ -1,5 +1,6 @@
 package com.idis.gestion.service;
 
+import com.idis.gestion.entities.Employe;
 import com.idis.gestion.entities.Facture;
 import com.idis.gestion.entities.Mouvement;
 import com.idis.gestion.service.pagination.PageFacture;
@@ -27,7 +28,9 @@ public interface MouvementService {
             Pageable pageable
     );
 
-    List<Facture> findAllFactures(int enable);
+    List<Facture> findAllFactures(Employe employe, int enable);
+
+    List<Facture> findFacturesByNumeroFacture(String numeroFacture, Employe employe, int enable);
 
     public Facture getFactureByNumeroFacture(String numeroFacture);
 

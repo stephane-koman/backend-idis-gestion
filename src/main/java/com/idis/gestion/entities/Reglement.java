@@ -21,7 +21,7 @@ public class Reglement extends Mouvement {
     }
 
     public Reglement(double credit, double debit, Date createAt, Date updateAt, int enable, Site site, Colis colis, Devise devise, Utilisateur utilisateur, double montantRegle, TypeReglement typeReglement, Facture facture) {
-        super(credit, debit, createAt, updateAt, enable, site, colis, devise, utilisateur);
+        super(credit, debit, createAt, updateAt, enable, site, devise, utilisateur);
         this.montantRegle = montantRegle;
         this.typeReglement = typeReglement;
         this.facture = facture;

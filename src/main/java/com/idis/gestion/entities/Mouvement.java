@@ -32,10 +32,6 @@ public abstract class Mouvement {
     private Site site;
 
     @ManyToOne
-    @JoinColumn(name = "reference_colis")
-    private Colis colis;
-
-    @ManyToOne
     @JoinColumn(name = "code_devise")
     private Devise devise;
 
@@ -46,14 +42,13 @@ public abstract class Mouvement {
     public Mouvement() {
     }
 
-    public Mouvement(double credit, double debit, Date createAt, Date updateAt, int enable, Site site, Colis colis, Devise devise, Utilisateur utilisateur) {
+    public Mouvement(double credit, double debit, Date createAt, Date updateAt, int enable, Site site, Devise devise, Utilisateur utilisateur) {
         this.credit = credit;
         this.debit = debit;
         this.createAt = createAt;
         this.updateAt = updateAt;
         this.enable = enable;
         this.site = site;
-        this.colis = colis;
         this.devise = devise;
         this.utilisateur = utilisateur;
     }
@@ -64,14 +59,6 @@ public abstract class Mouvement {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Colis getColis() {
-        return colis;
-    }
-
-    public void setColis(Colis colis) {
-        this.colis = colis;
     }
 
     public Utilisateur getUtilisateur() {

@@ -91,6 +91,17 @@ public class ColisRestController {
         return colisService.findAllSendColis(employe.getSite().getNomSite(), 1);
     }
 
+    @GetMapping(value = "/user/send/colis-by-reference")
+    public List<Colis> sendColisByReference(
+            @RequestHeader(value = "Authorization") String jwt,
+            @RequestParam(name = "reference", defaultValue = "") String reference
+    ){
+        String username = headersControls.getUsername(jwt);
+        Utilisateur utilisateur = utilisateurService.findUserByUsername(username);
+        Employe employe = personneService.getEmployeById(utilisateur.getPersonne().getId());
+        return colisService.findSendColisByReference(reference, employe.getSite().getNomSite(), 1);
+    }
+
     @GetMapping(value = "/user/receive/search-colis")
     public PageColis receiveSearchColis(
             @RequestHeader(value = "Authorization") String jwt,

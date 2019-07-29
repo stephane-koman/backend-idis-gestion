@@ -82,7 +82,7 @@ public class Colis {
 
     @JsonIgnore
     @OneToMany(mappedBy = "colis", fetch = FetchType.LAZY, cascade=CascadeType.ALL, orphanRemoval = true)
-    private Collection<Mouvement> mouvements = new ArrayList<>();
+    private Collection<Facture> factures = new ArrayList<>();
 
     public Colis() {
     }
@@ -278,12 +278,12 @@ public class Colis {
         this.siteDestinataire = siteDestinataire;
     }
 
-    public Collection<Mouvement> getMouvements() {
-        return mouvements;
+    public Collection<Facture> getFactures() {
+        return factures;
     }
 
-    public void setMouvements(Collection<Mouvement> mouvements) {
-        this.mouvements = mouvements;
+    public void setFactures(Collection<Facture> factures) {
+        this.factures = factures;
     }
 
     public Devise getDevise() {

@@ -101,14 +101,28 @@ public class PersonneRestController {
         return personneService.listClients(codeClient, raisonSociale, actif, pageable);
     }
 
-
-    @GetMapping("/user/all-clients")
-    public List<Client> allClients(@RequestHeader(value = "Authorization") String jwt){
-        int enable = 1;
-        return personneService.findAllClients(enable);
+    @GetMapping(value = "/user/get-clients")
+    public List<Client> getClientsByName(
+            @RequestParam(name = "raisonSociale", defaultValue = "") String raisonSociale
+    ){
+        return personneService.listClientsByRaisonSociale(raisonSociale);
     }
 
 
+    @GetMapping("/user/all-clients")
+    public List<Client> allClients(@RequestHeader(value = "Authorization") String jwt){
+        int actif = headersControls.getIsAdmin(jwt, 1);
+        return personneService.findAllClients(actif);
+    }
+
+    @GetMapping("/user/clients-by-raisonsociale")
+    public List<Client> clientsByRaisonSociale(
+            @RequestHeader(value = "Authorization") String jwt,
+            @RequestParam String raisonSociale
+    ){
+        int actif = headersControls.getIsAdmin(jwt, 1);
+        return personneService.findClientsByRaisonSociale(raisonSociale, actif);
+    }
 
     @PostMapping("/user/add-client")
     public Client addClient(

@@ -181,6 +181,11 @@ public class ColisServiceImpl implements ColisService {
     }
 
     @Override
+    public List<Colis> findSendColisByReference(String referenceColis, String nomSite, int enable) {
+        return colisRepository.findSendColisByReference(referenceColis, nomSite, enable);
+    }
+
+    @Override
     public Colis findColisByReference(String ref) {
         return colisRepository.findColisByReference(ref);
     }

@@ -2,6 +2,7 @@ package com.idis.gestion.service.impl;
 
 import com.idis.gestion.dao.MouvementRepository;
 import com.idis.gestion.entities.DetailsColis;
+import com.idis.gestion.entities.Employe;
 import com.idis.gestion.entities.Facture;
 import com.idis.gestion.entities.generator.NumeroAvoirGenerator;
 import com.idis.gestion.entities.generator.NumeroFactureGenerator;
@@ -120,8 +121,13 @@ public class MouvementServiceImpl implements MouvementService {
     }
 
     @Override
-    public List<Facture> findAllFactures(int enable) {
-        return mouvementRepository.findAllFactures(enable);
+    public List<Facture> findAllFactures(Employe employe, int enable) {
+        return mouvementRepository.findAllFactures(employe.getSite().getNomSite(), enable);
+    }
+
+    @Override
+    public List<Facture> findFacturesByNumeroFacture(String numeroFacture, Employe employe, int enable) {
+        return mouvementRepository.findFacturesByNumeroFacture(numeroFacture, employe.getSite().getNomSite(), enable);
     }
 
     @Override
