@@ -8,10 +8,17 @@ import com.idis.gestion.service.ReglementService;
 import com.idis.gestion.service.UtilisateurService;
 import com.idis.gestion.service.pagination.PageReglement;
 import com.idis.gestion.web.controls.HeadersControls;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperPrint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
@@ -66,6 +73,27 @@ public class ReglementRestController {
     @PostMapping("/user/update-reglement")
     public Reglement updateReglement(@RequestBody Reglement reglement){
         return reglementService.updateReglement(reglement);
+    }
+
+    @GetMapping(value = "/user/reglement-pdf")
+    public @ResponseBody void getReglementPDF(
+            @RequestParam(name = "numeroReglement", defaultValue = "") String numeroReglement,
+            HttpServletResponse response
+    ){
+
+        try {
+
+            response.setContentType("application/pdf");
+            response.setHeader("Content-Disposition", "attachment; filename=\"paiement.pdf\"");
+
+            final OutputStream out = response.getOutputStream();
+            JasperPrint print = reglementService.exportReglementPdf(numeroReglement);
+            JasperExportManager.exportReportToPdfStream(print, out);
+
+        } catch (SQLException | IOException | JRException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @PostMapping("/user/disable-reglement")

@@ -7,6 +7,9 @@ import java.util.Date;
 @DiscriminatorValue("REGLEMENT")
 public class Reglement extends Mouvement {
 
+    @Column(unique = true)
+    private String numeroReglement;
+
     @Column(columnDefinition="double precision default 0")
     private double montantRegle;
 
@@ -25,6 +28,14 @@ public class Reglement extends Mouvement {
         this.montantRegle = montantRegle;
         this.typeReglement = typeReglement;
         this.facture = facture;
+    }
+
+    public String getNumeroReglement() {
+        return numeroReglement;
+    }
+
+    public void setNumeroReglement(String numeroReglement) {
+        this.numeroReglement = numeroReglement;
     }
 
     public double getMontantRegle() {

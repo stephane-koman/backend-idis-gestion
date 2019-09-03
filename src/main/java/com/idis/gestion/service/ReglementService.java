@@ -3,8 +3,10 @@ package com.idis.gestion.service;
 import com.idis.gestion.entities.Reglement;
 import com.idis.gestion.entities.Reglement;
 import com.idis.gestion.service.pagination.PageReglement;
+import net.sf.jasperreports.engine.JasperPrint;
 import org.springframework.data.domain.Pageable;
 
+import java.sql.SQLException;
 import java.util.Date;
 
 public interface ReglementService {
@@ -15,4 +17,5 @@ public interface ReglementService {
     public void disableReglement(Long id, Date date);
     public void enableReglement(Long id, Date date);
     public void removeReglementById(Long id);
+    public JasperPrint exportReglementPdf(String numeroReglement) throws SQLException;
 }

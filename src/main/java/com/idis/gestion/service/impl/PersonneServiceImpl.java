@@ -33,7 +33,7 @@ public class PersonneServiceImpl implements PersonneService {
 
     @Override
     public Employe saveEmploye(Employe e) {
-        
+
         e.setCreateAt(new Date());
         e.setUpdateAt(new Date());
         e.setEnable(1);
@@ -88,6 +88,7 @@ public class PersonneServiceImpl implements PersonneService {
         client.setImage(c.getImage());
         client.setRaisonSociale(c.getRaisonSociale());
         client.setUpdateAt(new Date());
+        client.setDomaineActivite(c.getDomaineActivite());
         return personneRepository.save(client);
     }
 

@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reglement" language="groovy" pageWidth="595" pageHeight="420" orientation="Landscape" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="264ad53f-a495-499c-abb5-79a433043ea8">
+    <property name="ireport.zoom" value="1.0"/>
+    <property name="ireport.x" value="0"/>
+    <property name="ireport.y" value="27"/>
+    <parameter name="numero_reglement" class="java.lang.String">
+        <defaultValueExpression><![CDATA[]]></defaultValueExpression>
+    </parameter>
+    <queryString>
+        <![CDATA[SELECT
+     c.`reference`,
+     p.`raison_sociale`,
+     p.`adresse` as adresse_client,
+     p.`email` as email_client,
+     p.`contact` as contact_client,
+     s.`siret`,
+     s.`nom_site`,
+     s.`email` as email_site,
+     s.`adresse` as adresse_site,
+     s.`contact` as contact_site,
+     rglt.`numero_reglement`,
+     rglt.`create_at` as date_rglt,
+     f.numero_facture,
+     CONCAT(rglt.`credit`, " ", d.nom_devise) as credit,
+     c.`nom_destinataire`,
+     c.`adresse_destinataire`,
+     tr.nom_type_reglement
+FROM
+     `mouvement` rglt
+     INNER JOIN `mouvement` f ON rglt.`code_facture` = f.`id`
+     INNER JOIN `type_reglement` tr ON rglt.`type_reglement_id` = tr.`id`
+     INNER JOIN `colis` c ON f.`reference_colis` = c.`id`
+     INNER JOIN `devise` d ON f.`code_devise` = d.`id`
+     INNER JOIN `site` s ON f.`code_site` = s.`id`
+     INNER JOIN `personne` p ON c.`code_client` = p.`id`
+WHERE
+    rglt.numero_reglement = $P{numero_reglement}]]>
+    </queryString>
+    <field name="reference" class="java.lang.String">
+        <fieldDescription><![CDATA[]]></fieldDescription>
+    </field>
+    <field name="raison_sociale" class="java.lang.String">
+        <fieldDescription><![CDATA[]]></fieldDescription>
+    </field>
+    <field name="adresse_client" class="java.lang.String"/>
+    <field name="email_client" class="java.lang.String"/>
+    <field name="contact_client" class="java.lang.String"/>
+    <field name="siret" class="java.lang.String">
+        <fieldDescription><![CDATA[]]></fieldDescription>
+    </field>
+    <field name="nom_site" class="java.lang.String">
+        <fieldDescription><![CDATA[]]></fieldDescription>
+    </field>
+    <field name="email_site" class="java.lang.String"/>
+    <field name="adresse_site" class="java.lang.String"/>
+    <field name="contact_site" class="java.lang.String"/>
+    <field name="numero_reglement" class="java.lang.String">
+        <fieldDescription><![CDATA[]]></fieldDescription>
+    </field>
+    <field name="date_rglt" class="java.sql.Timestamp"/>
+    <field name="numero_facture" class="java.lang.String">
+        <fieldDescription><![CDATA[]]></fieldDescription>
+    </field>
+    <field name="credit" class="java.lang.String">
+        <fieldDescription><![CDATA[]]></fieldDescription>
+    </field>
+    <field name="nom_destinataire" class="java.lang.String">
+        <fieldDescription><![CDATA[]]></fieldDescription>
+    </field>
+    <field name="adresse_destinataire" class="java.lang.String">
+        <fieldDescription><![CDATA[]]></fieldDescription>
+    </field>
+    <field name="nom_type_reglement" class="java.lang.String">
+        <fieldDescription><![CDATA[]]></fieldDescription>
+    </field>
+    <background>
+        <band splitType="Stretch"/>
+    </background>
+    <title>
+        <band height="77" splitType="Stretch">
+            <image scaleImage="FillFrame">
+                <reportElement stretchType="RelativeToBandHeight" isPrintRepeatedValues="false" x="28" y="9" width="113" height="61" uuid="9b27cb36-bbef-4d2c-b7a7-b831a46ebd36"/>
+<!--                <imageExpression><![CDATA["/home/stephane/Documents/Reports/IMG-20190627-WA0000.jpg"]]></imageExpression>-->
+                <imageExpression><![CDATA["/var/app/logo.jpg"]]></imageExpression>
+            </image>
+            <staticText>
+                <reportElement x="295" y="32" width="241" height="20" uuid="b2e5e41c-4b26-4649-b4b0-6be24ad4889e"/>
+                <textElement textAlignment="Center">
+                    <font fontName="DejaVu Sans" size="12" isBold="true" isItalic="true"/>
+                </textElement>
+                <text><![CDATA[RECU JUSTIFICATIF DE PAIEMENT]]></text>
+            </staticText>
+        </band>
+    </title>
+    <detail>
+        <band height="187">
+            <staticText>
+                <reportElement x="10" y="8" width="51" height="20" uuid="5bdb80d4-666e-4a16-aaee-c49c507951b0"/>
+                <textElement>
+                    <font fontName="DejaVu Sans" size="11"/>
+                </textElement>
+                <text><![CDATA[RECU N°]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="61" y="8" width="100" height="20" uuid="d2bced15-1433-4f14-b8f9-a2fd71024648"/>
+                <textElement>
+                    <font fontName="DejaVu Sans" size="11"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{numero_reglement}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="10" y="32" width="28" height="20" uuid="17199bc3-25fb-4f30-bd8d-b8f0c65c7f4e"/>
+                <textElement>
+                    <font fontName="DejaVu Sans" size="11" isBold="true"/>
+                </textElement>
+                <text><![CDATA[De :]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="38" y="32" width="100" height="20" uuid="43961b68-60b4-47b8-87e3-842c54552a51"/>
+                <textElement>
+                    <font fontName="DejaVu Sans" size="11"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{raison_sociale}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="10" y="55" width="94" height="20" uuid="48c4c367-7592-45a7-9b80-ac03a61e822f"/>
+                <textElement>
+                    <font fontName="DejaVu Sans" size="11" isBold="true"/>
+                </textElement>
+                <text><![CDATA[La somme de :]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="104" y="55" width="100" height="20" uuid="a7bcd37f-5977-40fa-902b-c95038499c5c"/>
+                <textElement>
+                    <font fontName="DejaVu Sans" size="11"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{credit}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="10" y="78" width="43" height="20" uuid="73a25f36-cc66-4ecf-b471-0d95b5c9203c"/>
+                <textElement>
+                    <font fontName="DejaVu Sans" size="11" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Pour :]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="191" y="78" width="85" height="20" uuid="24997043-bfd0-4040-8561-0f49f4d50047"/>
+                <textElement>
+                    <font fontName="DejaVu Sans" size="11"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{numero_facture}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="53" y="78" width="138" height="20" uuid="e463592a-d6fb-416f-86ee-c2ea00cdbeae"/>
+                <textElement>
+                    <font fontName="DejaVu Sans" size="11" isBold="false"/>
+                </textElement>
+                <text><![CDATA[Règlement de la facture N°]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="276" y="78" width="97" height="20" uuid="070b8cc0-cf17-44c2-a218-efa733f340ed"/>
+                <textElement>
+                    <font fontName="DejaVu Sans" size="11" isBold="false"/>
+                </textElement>
+                <text><![CDATA[ayant pour colis ]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="373" y="78" width="100" height="20" uuid="cdff20f2-cc8b-4dd3-b2ab-5b0e4af5724d"/>
+                <textElement>
+                    <font fontName="DejaVu Sans" size="11"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{reference}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="10" y="101" width="128" height="20" uuid="ca68f115-c257-4131-802f-df10c1497c98"/>
+                <textElement>
+                    <font fontName="DejaVu Sans" size="11" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Mode de paiement :]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="138" y="101" width="100" height="20" uuid="459ee937-b427-4e0d-bb4b-d037752ef1e3"/>
+                <textElement>
+                    <font fontName="DejaVu Sans" size="11"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{nom_type_reglement}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="10" y="124" width="125" height="20" uuid="3994dea0-ca26-4205-9fad-13807e64bd04"/>
+                <textElement>
+                    <font fontName="DejaVu Sans" size="11" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Date de paiement :]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="135" y="124" width="100" height="20" uuid="d2732870-3761-445e-8710-69fd66fb7c79"/>
+                <textElement>
+                    <font fontName="DejaVu Sans" size="11"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{date_rglt}]]></textFieldExpression>
+            </textField>
+            <textField pattern="dd/MM/yyyy">
+                <reportElement x="207" y="147" width="100" height="20" uuid="45d2349b-97ae-4fd3-b5c6-4d29ef5e1473"/>
+                <textElement>
+                    <font fontName="DejaVu Sans" size="11"/>
+                </textElement>
+                <textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="10" y="147" width="125" height="20" uuid="0695e67e-5264-4648-af09-c7c02f759280"/>
+                <textElement>
+                    <font fontName="DejaVu Sans" size="11" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Fait à IDIS Express]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="138" y="147" width="49" height="20" uuid="c2ca9327-ef5b-455a-849d-c089a9915ad0"/>
+                <textElement>
+                    <font fontName="DejaVu Sans" size="11"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{nom_site}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="185" y="147" width="22" height="20" uuid="d118146e-6a0a-4727-8a92-d56d9edcddfb"/>
+                <textElement>
+                    <font fontName="DejaVu Sans" size="11"/>
+                </textElement>
+                <text><![CDATA[, le]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="447" y="144" width="100" height="20" uuid="6cce0a26-283d-44ae-a2ed-8dfcafd21e7b"/>
+                <textElement textAlignment="Center">
+                    <font fontName="DejaVu Sans" size="11" isBold="true" isUnderline="true"/>
+                </textElement>
+                <text><![CDATA[SIGNATURE]]></text>
+            </staticText>
+        </band>
+    </detail>
+    <pageFooter>
+        <band height="54" splitType="Stretch">
+            <line>
+                <reportElement x="10" y="5" width="537" height="1" uuid="236b45fa-d5e2-4f7e-a106-b3c458e7b3a5"/>
+            </line>
+            <staticText>
+                <reportElement x="10" y="21" width="523" height="23" uuid="ded187de-935d-4d94-904b-06aefe64b9f5"/>
+                <textElement>
+                    <font fontName="DejaVu Sans" size="8"/>
+                </textElement>
+                <text><![CDATA[38 Boulevard Mortier 75020 Paris France | Tel. +33(0) 760500880 |
+Contact@idisexpress.com | N°ORI : FR 803 166 487 000 14 | SIRET : 803 166 487 R.C.S NANTERRE.]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="10" y="10" width="152" height="12" uuid="ede64635-c62d-4e31-9d52-a424de7f297c"/>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[IDIS EXPRESS]]></text>
+            </staticText>
+        </band>
+    </pageFooter>
+</jasperReport>

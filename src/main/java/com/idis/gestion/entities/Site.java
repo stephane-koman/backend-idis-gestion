@@ -22,7 +22,7 @@ public class Site {
     private String contact;
     @Column(length = 60)
     private String email;
-    @Column(length = 20)
+    @Column
     private String siret;
     @Column(columnDefinition = "text")
     private String adresse;

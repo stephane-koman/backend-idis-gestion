@@ -84,6 +84,7 @@
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/service/impl/ColisServiceImpl.java
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/service/pagination/PageColis.java
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/entities/Site.java
+/home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/entities/generator/NumeroReglementGenerator.java
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/entities/generator/NumeroFactureGenerator.java
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/web/UtilisateurRestController.java
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/web/TypeReglementRestController.java

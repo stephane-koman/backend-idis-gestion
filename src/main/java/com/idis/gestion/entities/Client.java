@@ -14,6 +14,9 @@ public class Client extends Personne {
     @Column(unique = true)
     private String codeClient;
 
+    @Column(columnDefinition = "text")
+    private String domaineActivite;
+
     @JsonIgnore
     @OneToMany(mappedBy = "client", fetch = FetchType.LAZY, cascade=CascadeType.REMOVE, orphanRemoval = true)
     private Collection<Colis> colis = new ArrayList<>();
@@ -27,6 +30,14 @@ public class Client extends Personne {
 
     public String getCodeClient() {
         return codeClient;
+    }
+
+    public String getDomaineActivite() {
+        return domaineActivite;
+    }
+
+    public void setDomaineActivite(String domaineActivite) {
+        this.domaineActivite = domaineActivite;
     }
 
     public void setCodeClient(String codeClient) {

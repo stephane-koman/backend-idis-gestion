@@ -4,23 +4,46 @@ import com.idis.gestion.dao.MouvementRepository;
 import com.idis.gestion.dao.ReglementRepository;
 import com.idis.gestion.entities.Facture;
 import com.idis.gestion.entities.Reglement;
+import com.idis.gestion.entities.generator.NumeroReglementGenerator;
 import com.idis.gestion.service.ReglementService;
 import com.idis.gestion.service.pagination.PageReglement;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+import static net.sf.jasperreports.engine.JasperCompileManager.compileReport;
 
 @Service
 @Transactional(rollbackFor = Exception.class)
 public class ReglementServiceImpl implements ReglementService {
 
+    private final org.slf4j.Logger log = LoggerFactory.getLogger(this.getClass());
+
     private final ReglementRepository reglementRepository;
 
     private final MouvementRepository mouvementRepository;
+
+    @Autowired
+    @Qualifier("jdbcTemplate")
+    private JdbcTemplate jdbcTemplate;
 
     public ReglementServiceImpl(ReglementRepository reglementRepository, MouvementRepository mouvementRepository) {
         this.reglementRepository = reglementRepository;
@@ -36,7 +59,13 @@ public class ReglementServiceImpl implements ReglementService {
 
         updateMontantFactureRegle(r, r, false);
 
-        return reglementRepository.save(r);
+        Reglement reglement = reglementRepository.save(r);
+
+        NumeroReglementGenerator generatorReglement = new NumeroReglementGenerator();
+        String numeroReglement = generatorReglement.generate(reglement.getId());
+        reglement.setNumeroReglement(numeroReglement);
+
+        return reglement;
     }
 
     @Override
@@ -119,5 +148,28 @@ public class ReglementServiceImpl implements ReglementService {
         Facture f = reglement.getFacture();
         f.setMontantFactureRegle(f.getMontantFactureRegle() - reglement.getMontantRegle());
         reglementRepository.removeReglementById(id);
+    }
+
+    @Override
+    public JasperPrint exportReglementPdf(String numeroReglement) throws SQLException {
+        Connection conn = jdbcTemplate.getDataSource().getConnection();
+        JasperPrint jasperPrint = null;
+        try {
+            InputStream jasperStream = this.getClass().getResourceAsStream("/report/reglement.jrxml");
+            JasperDesign design = JRXmlLoader.load(jasperStream);
+            JasperReport jasperReport = compileReport(design);
+
+            Map<String, Object> parameters = new HashMap<>();
+
+            parameters.put("numero_reglement", numeroReglement);
+            //parameters.put("logo", image_url.getPath());
+
+            jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, conn);
+
+        } catch (JRException e) {
+            log.info("Error loading file jrxml");
+        }
+        conn.close();
+        return jasperPrint;
     }
 }

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="facture4" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0f394c67-e170-43a2-85b7-bbd1fca564d5">
-	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="40"/>
+	<property name="ireport.y" value="0"/>
 	<parameter name="numero_facture" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
@@ -116,7 +116,7 @@ WHERE
 						<rightPen lineWidth="0.5"/>
 					</box>
 					<textElement verticalAlignment="Middle">
-						<font fontName="Serif"/>
+						<font fontName="DejaVu Sans"/>
 						<paragraph leftIndent="4"/>
 					</textElement>
 					<text><![CDATA[MONTANT TOTAL]]></text>
@@ -131,7 +131,7 @@ WHERE
 						<rightPen lineWidth="0.5"/>
 					</box>
 					<textElement verticalAlignment="Middle">
-						<font fontName="Serif"/>
+						<font fontName="DejaVu Sans"/>
 						<paragraph leftIndent="4"/>
 					</textElement>
 					<text><![CDATA[MONTANT PAYE]]></text>
@@ -146,7 +146,7 @@ WHERE
 						<rightPen lineWidth="0.5"/>
 					</box>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font fontName="Serif"/>
+						<font fontName="DejaVu Sans"/>
 						<paragraph rightIndent="4"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{debit}]]></textFieldExpression>
@@ -161,7 +161,7 @@ WHERE
 						<rightPen lineWidth="0.5"/>
 					</box>
 					<textElement verticalAlignment="Middle">
-						<font fontName="Serif"/>
+						<font fontName="DejaVu Sans"/>
 						<paragraph leftIndent="4"/>
 					</textElement>
 					<text><![CDATA[MONTANT RESTANT]]></text>
@@ -176,7 +176,7 @@ WHERE
 						<rightPen lineWidth="0.5"/>
 					</box>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font fontName="Serif"/>
+						<font fontName="DejaVu Sans"/>
 						<paragraph rightIndent="4"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{montant_restant}]]></textFieldExpression>
@@ -191,7 +191,7 @@ WHERE
 						<rightPen lineWidth="0.5"/>
 					</box>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font fontName="Serif"/>
+						<font fontName="DejaVu Sans"/>
 						<paragraph rightIndent="4"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{montant_regle}]]></textFieldExpression>
@@ -210,92 +210,92 @@ WHERE
 				<imageExpression><![CDATA["/var/app/logo.jpg"]]></imageExpression>
 			</image>
 			<textField>
-				<reportElement x="379" y="32" width="140" height="24" uuid="ae3ff80f-6880-4328-8b48-e6f6798f0f81"/>
+				<reportElement x="339" y="22" width="216" height="49" uuid="ae3ff80f-6880-4328-8b48-e6f6798f0f81"/>
 				<textElement textAlignment="Justified">
-					<font fontName="Serif" size="20" isBold="true"/>
+					<font fontName="DejaVu Sans" size="36" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{nom_type_facture}]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
 	<pageHeader>
-		<band height="90" splitType="Stretch">
+		<band height="164" splitType="Stretch">
 			<textField>
-				<reportElement x="340" y="30" width="148" height="20" uuid="df0ae85e-00ab-4bde-8ecd-2dec03f01085"/>
+				<reportElement x="340" y="21" width="201" height="15" uuid="df0ae85e-00ab-4bde-8ecd-2dec03f01085"/>
 				<textElement>
-					<font fontName="Serif" size="11"/>
+					<font fontName="DejaVu Sans" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{adresse_client}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="340" y="7" width="148" height="20" uuid="3c678c3c-613b-45b4-a669-cf2645a8130c"/>
+				<reportElement x="340" y="7" width="201" height="15" uuid="3c678c3c-613b-45b4-a669-cf2645a8130c"/>
 				<textElement>
-					<font fontName="Serif" size="12"/>
+					<font fontName="DejaVu Sans" size="12" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{raison_sociale}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement stretchType="RelativeToTallestObject" x="10" y="30" width="211" height="15" uuid="a7c35b93-124d-4d59-aa37-84a05cb1484f"/>
-				<textElement>
-					<font fontName="Serif" size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{adresse_site}]]></textFieldExpression>
-			</textField>
 			<staticText>
-				<reportElement x="11" y="60" width="38" height="15" uuid="e04b7f7e-3e16-4b0e-8172-1e716b5667fb"/>
+				<reportElement x="4" y="51" width="34" height="10" uuid="e04b7f7e-3e16-4b0e-8172-1e716b5667fb"/>
 				<textElement>
-					<font fontName="Serif" size="8" isBold="true"/>
+					<font fontName="DejaVu Sans" size="8" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Tél : ]]></text>
+				<text><![CDATA[Phone:]]></text>
 			</staticText>
-			<textField>
-				<reportElement x="49" y="45" width="172" height="15" uuid="471d4692-ba29-489b-bbfa-f9be8f7f0040"/>
-				<textElement>
-					<font fontName="Serif" size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{siret}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="48" y="60" width="173" height="15" uuid="1c735f15-3281-4ae1-9162-c04cee021a54"/>
-				<textElement>
-					<font fontName="Serif" size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{contact_site}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="10" y="10" width="211" height="20" uuid="e4cd11b5-a984-43db-bc64-96c4b150d27b"/>
-				<textElement>
-					<font fontName="Serif" size="14" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{nom_site}]]></textFieldExpression>
-			</textField>
 			<staticText>
-				<reportElement x="10" y="45" width="39" height="15" uuid="31584863-d9ad-4225-9deb-90a37db4577e"/>
+				<reportElement x="4" y="61" width="26" height="10" uuid="94ae8f01-4ff7-4133-97d9-1599b3609aeb"/>
 				<textElement>
-					<font fontName="Serif" size="8" isBold="true"/>
+					<font fontName="DejaVu Sans" size="8" isBold="true"/>
 				</textElement>
-				<text><![CDATA[SIRET : ]]></text>
+				<text><![CDATA[Mail:]]></text>
 			</staticText>
-			<textField>
-				<reportElement x="49" y="75" width="173" height="15" uuid="082dcfd7-ae37-459b-8e6b-db784d93f3ec"/>
-				<textElement>
-					<font fontName="Serif" size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{email_site}]]></textFieldExpression>
-			</textField>
 			<staticText>
-				<reportElement x="11" y="75" width="38" height="15" uuid="94ae8f01-4ff7-4133-97d9-1599b3609aeb"/>
+				<reportElement x="4" y="41" width="27" height="10" uuid="31584863-d9ad-4225-9deb-90a37db4577e"/>
 				<textElement>
-					<font fontName="Serif" size="8" isBold="true"/>
+					<font fontName="DejaVu Sans" size="8" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Email : ]]></text>
+				<text><![CDATA[Siret:]]></text>
 			</staticText>
-		</band>
-	</pageHeader>
-	<columnHeader>
-		<band height="141" splitType="Stretch">
 			<staticText>
-				<reportElement mode="Opaque" x="339" y="2" width="108" height="30" backcolor="#DFDFDF" uuid="77a8895f-c16b-4c9a-bb1a-7f8e8c7d9a4d"/>
+				<reportElement x="4" y="23" width="221" height="19" uuid="344ccca9-aef7-4ea4-8038-6c5f5cfc438e"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="8"/>
+				</textElement>
+				<text><![CDATA[38 Boulevard Mortier
+75020 Paris]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="30" y="41" width="195" height="10" uuid="eb1f4b91-b6a2-4f55-938b-c8fd978fa579"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="8"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[829928472 RCS Bobigny]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="38" y="51" width="187" height="10" uuid="3963b762-0eb7-42ae-8016-8b0f330fd8a4"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="8"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[0755433516 / 0760500880]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="30" y="61" width="195" height="10" uuid="345223cd-cc5b-47f6-9eeb-c6b8fbba83e3"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="8"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[infos@idisexpress.com]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="4" y="7" width="211" height="17" uuid="b1092b8b-b933-4b88-8ac7-3f0b6c96bbae"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[IDIS EXPRESS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="339" y="74" width="108" height="30" backcolor="#DFDFDF" uuid="77a8895f-c16b-4c9a-bb1a-7f8e8c7d9a4d"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -304,13 +304,13 @@ WHERE
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Serif"/>
+					<font fontName="DejaVu Sans"/>
 					<paragraph leftIndent="4"/>
 				</textElement>
 				<text><![CDATA[NUMERO FACTURE]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="339" y="62" width="108" height="30" backcolor="#DFDFDF" uuid="12eee627-a2f1-4afd-8642-6c94a522663d"/>
+				<reportElement mode="Opaque" x="339" y="134" width="108" height="30" backcolor="#DFDFDF" uuid="12eee627-a2f1-4afd-8642-6c94a522663d"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -319,13 +319,13 @@ WHERE
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Serif"/>
+					<font fontName="DejaVu Sans"/>
 					<paragraph leftIndent="4"/>
 				</textElement>
 				<text><![CDATA[MONTANT]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="339" y="32" width="108" height="30" backcolor="#DFDFDF" uuid="81c121ea-74cd-475b-9509-26e980245a57"/>
+				<reportElement mode="Opaque" x="339" y="104" width="108" height="30" backcolor="#DFDFDF" uuid="81c121ea-74cd-475b-9509-26e980245a57"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -334,13 +334,13 @@ WHERE
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Serif"/>
+					<font fontName="DejaVu Sans"/>
 					<paragraph leftIndent="4"/>
 				</textElement>
 				<text><![CDATA[DATE]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="447" y="2" width="108" height="30" uuid="317c0dc7-2f66-45d9-86a7-2c1d79713a5d"/>
+				<reportElement x="447" y="74" width="108" height="30" uuid="317c0dc7-2f66-45d9-86a7-2c1d79713a5d"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -349,13 +349,13 @@ WHERE
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="Serif"/>
+					<font fontName="DejaVu Sans"/>
 					<paragraph rightIndent="4"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{numero_facture}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="447" y="32" width="108" height="30" uuid="910571bb-de29-479b-8007-54c099851c43"/>
+				<reportElement x="447" y="104" width="108" height="30" uuid="910571bb-de29-479b-8007-54c099851c43"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -364,13 +364,13 @@ WHERE
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="Serif"/>
+					<font fontName="DejaVu Sans"/>
 					<paragraph rightIndent="4"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{date_facture}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="447" y="62" width="108" height="30" uuid="ca4df5d3-285e-4876-82c8-484ae16dd5b7"/>
+				<reportElement x="447" y="134" width="108" height="30" uuid="ca4df5d3-285e-4876-82c8-484ae16dd5b7"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -379,13 +379,76 @@ WHERE
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="Serif"/>
+					<font fontName="DejaVu Sans"/>
 					<paragraph rightIndent="4"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{debit}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="111" width="131" height="30" backcolor="#DFDFDF" uuid="3d73c84d-c469-485a-89e7-80501671e899"/>
+				<reportElement x="4" y="72" width="67" height="15" uuid="d4ddef90-5336-4350-a689-cef8f427732c"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="12" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[ABIDJAN :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="4" y="89" width="221" height="10" uuid="3cebb778-1983-4b66-85e1-e2007c8fcd9c"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="8"/>
+				</textElement>
+				<text><![CDATA[2 PLATEAUX VALLON FACE 12ème ARRDT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="29" y="117" width="196" height="10" uuid="d6e7c710-64fa-4f76-8fa9-c76807faef3a"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="8"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[idis.abidjan@gmail.com]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="34" y="99" width="191" height="10" uuid="bfd1b76d-9175-4cc8-bf58-7bd5a9ac3187"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="8"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[CI-ABJ-06-A-1305]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="4" y="99" width="31" height="10" uuid="e3154d1d-1b10-4d9e-a1c0-900b9729d175"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RCCM:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="38" y="108" width="187" height="10" uuid="a7097613-6b59-4275-b466-1b9d4d16bf32"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="8"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[89970980]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="4" y="117" width="26" height="10" uuid="f250feb8-3b71-42c5-b0b5-8ea84dfe0fc4"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Mail:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="4" y="108" width="34" height="10" uuid="e4ea2157-5b49-48fe-a751-be10258a8286"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Phone:]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="41" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="11" width="131" height="30" backcolor="#DFDFDF" uuid="3d73c84d-c469-485a-89e7-80501671e899"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -394,12 +457,12 @@ WHERE
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Serif" isBold="true"/>
+					<font fontName="DejaVu Sans" isBold="true"/>
 				</textElement>
 				<text><![CDATA[DESIGNATION]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="131" y="111" width="93" height="30" backcolor="#DFDFDF" uuid="33df73e9-f529-48fe-b0be-6d24793c8528"/>
+				<reportElement mode="Opaque" x="131" y="11" width="93" height="30" backcolor="#DFDFDF" uuid="33df73e9-f529-48fe-b0be-6d24793c8528"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -408,12 +471,12 @@ WHERE
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Serif" isBold="true"/>
+					<font fontName="DejaVu Sans" isBold="true"/>
 				</textElement>
 				<text><![CDATA[QUANTITE]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="224" y="111" width="83" height="30" backcolor="#DFDFDF" uuid="51897d06-f500-4be3-b707-ffd5c33416aa"/>
+				<reportElement mode="Opaque" x="224" y="11" width="83" height="30" backcolor="#DFDFDF" uuid="51897d06-f500-4be3-b707-ffd5c33416aa"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -422,12 +485,12 @@ WHERE
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Serif" isBold="true"/>
+					<font fontName="DejaVu Sans" isBold="true"/>
 				</textElement>
 				<text><![CDATA[POIDS]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="307" y="111" width="122" height="30" backcolor="#DFDFDF" uuid="4ac68ad4-9d7c-43ad-8cbb-4ce91bd9a09c"/>
+				<reportElement mode="Opaque" x="307" y="11" width="122" height="30" backcolor="#DFDFDF" uuid="4ac68ad4-9d7c-43ad-8cbb-4ce91bd9a09c"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -436,12 +499,12 @@ WHERE
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Serif" isBold="true"/>
+					<font fontName="DejaVu Sans" isBold="true"/>
 				</textElement>
 				<text><![CDATA[PRIX UNITAIRE]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="429" y="111" width="126" height="30" backcolor="#DFDFDF" uuid="8bb60905-bbe9-4ecb-bfca-026e63ff1a0d"/>
+				<reportElement mode="Opaque" x="429" y="11" width="126" height="30" backcolor="#DFDFDF" uuid="8bb60905-bbe9-4ecb-bfca-026e63ff1a0d"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -450,7 +513,7 @@ WHERE
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Serif" isBold="true"/>
+					<font fontName="DejaVu Sans" isBold="true"/>
 				</textElement>
 				<text><![CDATA[PRIX TOTAL]]></text>
 			</staticText>
@@ -468,7 +531,7 @@ WHERE
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Serif"/>
+					<font fontName="DejaVu Sans"/>
 					<paragraph leftIndent="4"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{designation}]]></textFieldExpression>
@@ -483,7 +546,7 @@ WHERE
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="Serif"/>
+					<font fontName="DejaVu Sans"/>
 					<paragraph rightIndent="4"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{quantite}]]></textFieldExpression>
@@ -498,7 +561,7 @@ WHERE
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="Serif"/>
+					<font fontName="DejaVu Sans"/>
 					<paragraph rightIndent="4"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{poids}]]></textFieldExpression>
@@ -513,7 +576,7 @@ WHERE
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="Serif"/>
+					<font fontName="DejaVu Sans"/>
 					<paragraph rightIndent="4"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{prix_unitaire}]]></textFieldExpression>
@@ -528,7 +591,7 @@ WHERE
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="Serif"/>
+					<font fontName="DejaVu Sans"/>
 					<paragraph rightIndent="4"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{prix_total}]]></textFieldExpression>
@@ -547,7 +610,7 @@ WHERE
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Serif" isBold="true"/>
+					<font fontName="DejaVu Sans" isBold="true"/>
 				</textElement>
 				<text><![CDATA[DATE]]></text>
 			</staticText>
@@ -561,7 +624,7 @@ WHERE
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Serif" isBold="true"/>
+					<font fontName="DejaVu Sans" isBold="true"/>
 				</textElement>
 				<text><![CDATA[EXPEDITEUR]]></text>
 			</staticText>
@@ -575,17 +638,17 @@ WHERE
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Serif" isBold="true"/>
+					<font fontName="DejaVu Sans" isBold="true"/>
 				</textElement>
 				<text><![CDATA[DESTINATAIRE]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="0" y="10" width="555" height="20" uuid="dd31931a-5d12-4e50-9baf-f671048d8644"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Serif" size="9"/>
+					<font fontName="DejaVu Sans" size="8"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<text><![CDATA[N O U S  V O U S  R E M E R C I O N S  D E  V O T R E  C O N F I A N C E]]></text>
+				<text><![CDATA[N  O  U  S   V  O  U  S   R  E  M  E  R  C  I  O  N  S   D  E   V  O  T  R  E   C  O  N  F  I  A  N  C  E]]></text>
 			</staticText>
 			<line>
 				<reportElement x="0" y="30" width="555" height="1" uuid="4994d4dd-4489-4bd4-985f-b84400a43a93"/>
@@ -593,9 +656,9 @@ WHERE
 			<staticText>
 				<reportElement x="0" y="31" width="555" height="20" uuid="f7b480b8-0598-411d-b0dc-a438adeb9e3e"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Serif" size="6"/>
+					<font fontName="DejaVu Sans" size="5"/>
 				</textElement>
-				<text><![CDATA[NB: Tout article non déclaré n'est pas remboursable. Tout colis non réclamé après une semaine vous expose à des frais de magasinage. Merci pour vos compréhension]]></text>
+				<text><![CDATA[NB: Tout article non déclaré n'est pas remboursable. Tout colis non réclamé après une semaine vous expose à des frais de magasinage. Merci pour votre compréhension]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="0" y="86" width="215" height="130" uuid="78e5dd28-b97f-426b-840c-76acce355156"/>
@@ -607,7 +670,7 @@ WHERE
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center">
-					<font fontName="Serif"/>
+					<font fontName="DejaVu Sans"/>
 					<paragraph spacingBefore="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{date_colis}]]></textFieldExpression>
@@ -629,7 +692,7 @@ com.google.zxing.BarcodeFormat.QR_CODE, 300, 300))]]></imageExpression>
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement>
-					<font fontName="Serif"/>
+					<font fontName="DejaVu Sans"/>
 				</textElement>
 				<text><![CDATA[]]></text>
 			</staticText>
@@ -643,51 +706,60 @@ com.google.zxing.BarcodeFormat.QR_CODE, 300, 300))]]></imageExpression>
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement>
-					<font fontName="Serif"/>
+					<font fontName="DejaVu Sans"/>
 				</textElement>
 				<text><![CDATA[]]></text>
 			</staticText>
 			<textField>
-				<reportElement stretchType="RelativeToTallestObject" x="215" y="136" width="160" height="30" uuid="2f82fd29-c31f-4d83-8932-45211fe409c5"/>
+				<reportElement stretchType="RelativeToTallestObject" x="215" y="93" width="160" height="12" uuid="2f82fd29-c31f-4d83-8932-45211fe409c5"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Serif"/>
+					<font fontName="DejaVu Sans"/>
 					<paragraph leftIndent="4"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{raison_sociale}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement stretchType="RelativeToTallestObject" x="375" y="121" width="180" height="30" uuid="92447c81-7fbc-4d67-877f-726697b66c06"/>
+				<reportElement stretchType="RelativeToTallestObject" x="375" y="113" width="180" height="12" uuid="92447c81-7fbc-4d67-877f-726697b66c06"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Serif"/>
+					<font fontName="DejaVu Sans"/>
 					<paragraph leftIndent="4"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{nom_destinataire}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement stretchType="RelativeToTallestObject" x="375" y="151" width="180" height="30" uuid="b8601200-6c4e-40b5-ba7a-a141a6ae4c7c"/>
+				<reportElement stretchType="RelativeToTallestObject" x="375" y="125" width="180" height="12" uuid="b8601200-6c4e-40b5-ba7a-a141a6ae4c7c"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Serif"/>
+					<font fontName="DejaVu Sans"/>
 					<paragraph leftIndent="4"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{adresse_destinataire}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="215" y="105" width="160" height="12" uuid="89d18fbb-ab55-468b-92eb-72078951f4c7"/>
+				<textElement>
+					<font fontName="DejaVu Sans"/>
+					<paragraph leftIndent="4"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{contact_client}]]></textFieldExpression>
 			</textField>
 		</band>
 	</columnFooter>
 	<pageFooter>
 		<band height="54" splitType="Stretch">
-			<textField>
-				<reportElement stretchType="RelativeToTallestObject" x="18" y="25" width="522" height="20" uuid="aac69913-0266-4088-a11a-086583120e8b"/>
-				<textElement>
-					<font fontName="Serif"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{footer}]]></textFieldExpression>
-			</textField>
 			<staticText>
-				<reportElement x="18" y="7" width="152" height="18" uuid="83c164d8-92ae-4176-83d9-b724eb286a7a"/>
+				<reportElement x="18" y="8" width="152" height="12" uuid="83c164d8-92ae-4176-83d9-b724eb286a7a"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Serif" size="11" isBold="true"/>
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[IDIS EXPRESS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="18" y="19" width="523" height="23" uuid="77bdd0af-15df-4ee3-8a60-ad6a5c7cdf35"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="8"/>
+				</textElement>
+				<text><![CDATA[38 Boulevard Mortier 75020 Paris France | Tel. +33(0) 760500880 |
+Contact@idisexpress.com | N°ORI : FR 803 166 487 000 14 | SIRET : 803 166 487 R.C.S NANTERRE.]]></text>
 			</staticText>
 		</band>
 	</pageFooter>

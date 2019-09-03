@@ -28,6 +28,7 @@ com/idis/gestion/service/pagination/PageRole.class
 com/idis/gestion/web/TvaRestController.class
 com/idis/gestion/web/forms/RegisterForm.class
 com/idis/gestion/entities/Colis.class
+com/idis/gestion/config/WebConfig.class
 com/idis/gestion/service/TvaService.class
 com/idis/gestion/security/JWTAuthorizationFilter.class
 com/idis/gestion/web/MouvementRestController.class
