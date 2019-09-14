@@ -33,6 +33,7 @@ public interface SiteRepository extends PagingAndSortingRepository<Site,Long> {
     @Query("update Site s set s.enable = 1, s.updateAt = ?2 where s.id = ?1")
     public void enableSite(Long id, Date date);
 
+    @Modifying
     public void removeSiteById(Long id);
 
     @Query("select s from Site s where (s.nomSite <> :nomSite ) and (s.enable = :enable or :enable = 2)")

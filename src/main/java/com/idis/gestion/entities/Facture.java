@@ -35,7 +35,7 @@ public class Facture extends Mouvement {
     private Colis colis;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "facture", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "facture", fetch = FetchType.LAZY, orphanRemoval = true)
     private Collection<Reglement> reglements = new ArrayList<>();
 
 

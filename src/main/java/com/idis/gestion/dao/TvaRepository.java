@@ -25,6 +25,7 @@ public interface TvaRepository extends PagingAndSortingRepository<Tva,Long> {
     @Query("update Tva t set t.enable = 1, t.updateAt = ?2 where t.id = ?1")
     public void enableTva(Long id, Date date);
 
+    @Modifying
     public void removeTvaById(Long id);
 
     @Query("select t from Tva t where (t.enable = :enable or :enable = 2)")

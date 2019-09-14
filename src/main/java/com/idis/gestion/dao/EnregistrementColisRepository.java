@@ -18,5 +18,4 @@ public interface EnregistrementColisRepository extends PagingAndSortingRepositor
 
     public EnregistrementColis getEnregistrementColisById(long id);
 
-
 }

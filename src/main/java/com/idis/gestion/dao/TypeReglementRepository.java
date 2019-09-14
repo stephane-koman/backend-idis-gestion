@@ -25,6 +25,7 @@ public interface TypeReglementRepository extends PagingAndSortingRepository<Type
     @Query("update TypeReglement tr set tr.enable = 1, tr.updateAt = ?2 where tr.id = ?1")
     public void enableTypeReglement(Long id, Date date);
 
+    @Modifying
     public void removeTypeReglementById(Long id);
 
     @Query("select tr from TypeReglement tr where (tr.enable = :enable or :enable = 2)")

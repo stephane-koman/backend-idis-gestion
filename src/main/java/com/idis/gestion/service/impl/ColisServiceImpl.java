@@ -2,9 +2,11 @@ package com.idis.gestion.service.impl;
 
 import com.idis.gestion.dao.*;
 import com.idis.gestion.entities.*;
+import com.idis.gestion.entities.generator.CodeLivraisonGenerator;
 import com.idis.gestion.entities.generator.ReferenceColisGenerator;
 import com.idis.gestion.service.ColisService;
 import com.idis.gestion.service.DetailsColisService;
+import com.idis.gestion.service.ImageService;
 import com.idis.gestion.service.pagination.PageColis;
 import com.idis.gestion.web.controls.Count;
 import net.sf.jasperreports.engine.JRException;
@@ -21,11 +23,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static net.sf.jasperreports.engine.JasperCompileManager.compileReport;
 
@@ -57,26 +62,31 @@ public class ColisServiceImpl implements ColisService {
     private LivraisonColisRepository livraisonColisRepository;
 
     @Autowired
+    private ImageService imageService;
+
+    @Autowired
     @Qualifier("jdbcTemplate")
     private JdbcTemplate jdbcTemplate;
 
     @Override
-    public Colis saveColis(Colis c, String codeSite) {
-
-        Collection<DetailsColis> detailsColis = new ArrayList<>();
+    public Colis saveColis(Colis c, String codeSite, MultipartFile[] images) {
 
         c.setCreateAt(new Date());
         c.setUpdateAt(new Date());
 
         ReferenceColisGenerator generator = new ReferenceColisGenerator();
+        CodeLivraisonGenerator livraisonGenerator = new CodeLivraisonGenerator();
 
         Colis colis = colisRepository.save(c);
 
         addDetailsColis(c.getDetailsColis(), colis);
 
         String reference = generator.generate(colis.getId(), codeSite);
+        String codeLivraison = livraisonGenerator.generate( colis.getId(), colis.getSiteExpediteur().getCodeSite() );
+
         colis.setReference(reference);
         colis.setQrCode(reference);
+        colis.setCodeLivraison( codeLivraison );
 
         EnregistrementColis enregistrementColis = new EnregistrementColis();
         enregistrementColis.setUtilisateur(colis.getUtilisateur());
@@ -85,113 +95,16 @@ public class ColisServiceImpl implements ColisService {
         EnregistrementColis eColis = enregistrementColisRepository.save(enregistrementColis);
         colis.setEnregistrementColis(eColis);
 
+        if(images != null){
+            Collection<Image> imgs = addImages(images, colis).collect( Collectors.toList());
+            colis.setImages(imgs);
+        }
+
         return colis;
     }
 
     @Override
-    public PageColis listColis(
-            String reference,
-            String nomClient,
-            String nomDestinataire,
-            int enable,
-            Pageable pageable) {
-        Page<Colis> colis = colisRepository.listColis(
-                reference,
-                nomClient,
-                nomDestinataire,
-                enable,
-                pageable
-        );
-
-        PageColis pColis = new PageColis();
-        pColis.setColis(colis.getContent());
-        pColis.setPage(colis.getNumber());
-        pColis.setNombreColis(colis.getNumberOfElements());
-        pColis.setTotalColis((int) colis.getTotalElements());
-        pColis.setTotalPages(colis.getTotalPages());
-
-        return pColis;
-    }
-
-    @Override
-    public PageColis sendListColis(String reference, String nomClient, String nomDestinataire, String nomSite, int enable, Pageable pageable) {
-        Page<Colis> colis = colisRepository.sendListColis(
-                reference,
-                nomClient,
-                nomDestinataire,
-                nomSite,
-                enable,
-                pageable
-        );
-
-        PageColis pColis = new PageColis();
-        pColis.setColis(colis.getContent());
-        pColis.setPage(colis.getNumber());
-        pColis.setNombreColis(colis.getNumberOfElements());
-        pColis.setTotalColis((int) colis.getTotalElements());
-        pColis.setTotalPages(colis.getTotalPages());
-
-        return pColis;
-    }
-
-    @Override
-    public PageColis receiveListColis(String reference, String nomClient, String nomDestinataire, String nomSite, int enable, Pageable pageable) {
-        Page<Colis> colis = colisRepository.receiveListColis(
-                reference,
-                nomClient,
-                nomDestinataire,
-                nomSite,
-                enable,
-                pageable
-        );
-
-        PageColis pColis = new PageColis();
-        pColis.setColis(colis.getContent());
-        pColis.setPage(colis.getNumber());
-        pColis.setNombreColis(colis.getNumberOfElements());
-        pColis.setTotalColis((int) colis.getTotalElements());
-        pColis.setTotalPages(colis.getTotalPages());
-
-        return pColis;
-    }
-
-    @Override
-    public PageColis clientListColis(String reference, Long idClient, String nomDestinataire, int enable, Pageable pageable) {
-        Page<Colis> colis = colisRepository.clientListColis(
-                reference,
-                idClient,
-                nomDestinataire,
-                enable,
-                pageable
-        );
-
-        PageColis pColis = new PageColis();
-        pColis.setColis(colis.getContent());
-        pColis.setPage(colis.getNumber());
-        pColis.setNombreColis(colis.getNumberOfElements());
-        pColis.setTotalColis((int) colis.getTotalElements());
-        pColis.setTotalPages(colis.getTotalPages());
-
-        return pColis;
-    }
-
-    @Override
-    public List<Colis> findAllSendColis(String nomSite, int enable) {
-        return colisRepository.findAllSendColis(nomSite, enable);
-    }
-
-    @Override
-    public List<Colis> findSendColisByReference(String referenceColis, String nomSite, int enable) {
-        return colisRepository.findSendColisByReference(referenceColis, nomSite, enable);
-    }
-
-    @Override
-    public Colis findColisByReference(String ref) {
-        return colisRepository.findColisByReference(ref);
-    }
-
-    @Override
-    public Colis updateColis(Colis c) {
+    public Colis updateColis(Colis c, MultipartFile[] images) {
 
         Colis colis = colisRepository.findColisByReference(c.getReference());
 
@@ -210,9 +123,22 @@ public class ColisServiceImpl implements ColisService {
         colis.setReceptionColis(c.getReceptionColis());
         colis.setLivraisonColis(c.getLivraisonColis());
 
+        if(colis.getCodeLivraison() == null){
+            CodeLivraisonGenerator livraisonGenerator = new CodeLivraisonGenerator();
+            String codeLivraison = livraisonGenerator.generate( colis.getId(), colis.getSiteExpediteur().getCodeSite() );
+            colis.setCodeLivraison( codeLivraison );
+        }
+
         removeDetailsColis(colis);
 
         addDetailsColis(c.getDetailsColis(), colis);
+
+        removeImages(colis);
+
+        if(images != null){
+            Collection<Image> imgs = addImages(images, colis).collect( Collectors.toList());
+            colis.setImages(imgs);
+        }
 
         colis.setClient(c.getClient());
         colis.setEnable(c.getEnable());
@@ -221,21 +147,117 @@ public class ColisServiceImpl implements ColisService {
         return colisRepository.save(colis);
     }
 
+    public Stream<Image> addImages(MultipartFile[] images, Colis colis){
+        return Arrays.stream(images)
+                .map( image -> imageService.saveImage(image, colis));
+
+    }
+
+    public void removeImages(Colis colis){
+        if(colis.getImages().size() > 0){
+            colis.getImages().forEach( img -> {
+                System.out.println( "********************************* " + img.getId() + " **************************" );
+                imageService.removeImageById( img.getId() );
+            } );
+        }
+    }
+
+    public PageColis generalListColis(Page<Colis> colis){
+        PageColis pColis = new PageColis();
+        pColis.setColis(colis.getContent());
+        pColis.setPage(colis.getNumber());
+        pColis.setNombreColis(colis.getNumberOfElements());
+        pColis.setTotalColis((int) colis.getTotalElements());
+        pColis.setTotalPages(colis.getTotalPages());
+
+        return pColis;
+    }
+
+    @Override
+    public PageColis listColis(
+            String reference,
+            String nomClient,
+            String nomDestinataire,
+            int enable,
+            Pageable pageable) {
+        Page<Colis> colis = colisRepository.listColis(
+                reference,
+                nomClient,
+                nomDestinataire,
+                enable,
+                pageable
+        );
+
+        return generalListColis( colis );
+    }
+
+    @Override
+    public PageColis sendListColis(String reference, String nomClient, String nomDestinataire, String nomSite, int enable, Pageable pageable) {
+        Page<Colis> colis = colisRepository.sendListColis(
+                reference,
+                nomClient,
+                nomDestinataire,
+                nomSite,
+                enable,
+                pageable
+        );
+
+        return generalListColis( colis );
+    }
+
+    @Override
+    public PageColis receiveListColis(String reference, String nomClient, String nomDestinataire, String nomSite, int enable, Pageable pageable) {
+        Page<Colis> colis = colisRepository.receiveListColis(
+                reference,
+                nomClient,
+                nomDestinataire,
+                nomSite,
+                enable,
+                pageable
+        );
+
+        return generalListColis( colis );
+    }
+
+    @Override
+    public PageColis clientListColis(String reference, Long idClient, String nomDestinataire, int enable, Pageable pageable) {
+        Page<Colis> colis = colisRepository.clientListColis(
+                reference,
+                idClient,
+                nomDestinataire,
+                enable,
+                pageable
+        );
+
+        return generalListColis( colis );
+    }
+
+    @Override
+    public List<Colis> findAllSendColis(String nomSite, int enable) {
+        return colisRepository.findAllSendColis(nomSite, enable);
+    }
+
+    @Override
+    public List<Colis> findSendColisByReference(String referenceColis, String nomSite, int enable) {
+        return colisRepository.findSendColisByReference(referenceColis, nomSite, enable);
+    }
+
+    @Override
+    public Colis findColisByReference(String ref) {
+        return colisRepository.findColisByReference(ref);
+    }
+
     @Override
     public double updateDetailsColis(Collection<DetailsColis> dColis, Colis colis) {
         List<DetailsColis> detailsColis = new ArrayList<>();
         double[] montant = new double[1];
         montant[0] = 0;
-        System.out.println("+++++++++++++++++++++++++ " + dColis.size() + " +++++++++++++++++++++++++");
         if (dColis.size() > 0) {
             dColis.forEach((dc) -> {
-                System.out.println("+++++++++++++++++++++++++ " + dc.getDesignation() + " +++++++++++++++++++++++++");
                 dc.setColis(colis);
                 DetailsColis deColis;
-                System.out.println("+++++++++++++++++++++++++ " + dc.getPrixUnitaire()  + " +++++++++++++++++++++++++");
                 dc.setPrixTotal(dc.getPrixUnitaire()*dc.getPoids());
                 deColis = detailsColisService.updateDetailsColis(dc);
-                System.out.println("+++++++++++++++++++++++++ " + deColis.getPrixUnitaire()  + " +++++++++++++++++++++++++");
                 detailsColis.add(deColis);
                 montant[0] += dc.getPrixTotal();
             });

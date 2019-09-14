@@ -76,6 +76,7 @@ public interface PersonneRepository extends PagingAndSortingRepository<Personne,
     @Query("update Personne p set p.enable = 1, p.updateAt = ?2 where p.id = ?1")
     public void enablePersonne(Long id, Date date);
 
+    @Modifying
     public void removePersonneById(Long id);
 
     @Query("select count(e) from Employe e " +

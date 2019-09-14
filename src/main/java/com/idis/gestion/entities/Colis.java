@@ -17,6 +17,8 @@ public class Colis {
     private String reference;
     @Column(unique = true)
     private String qrCode;
+    @Column(unique = true)
+    private String codeLivraison;
     @Column(columnDefinition="double precision default 0")
     private double valeurColis;
     @Column(columnDefinition = "text")
@@ -76,8 +78,7 @@ public class Colis {
     @JoinColumn(name = "code_client", nullable = false)
     private Client client;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "colis", fetch = FetchType.LAZY, cascade=CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "colis", fetch = FetchType.LAZY, cascade=CascadeType.ALL)
     private Collection<Image> images = new ArrayList<>();
 
     @JsonIgnore
@@ -87,7 +88,7 @@ public class Colis {
     public Colis() {
     }
 
-    public Colis(String reference, String qrCode, double valeurColis, String description, String nomDestinataire, String contactDestinataire, String adresseDestinataire, Date createAt, Date updateAt, int enable, EnregistrementColis enregistrementColis, ExpeditionColis expeditionColis, ArriveeColis arriveeColis, ReceptionColis receptionColis, LivraisonColis livraisonColis, Site siteExpediteur, Site siteDestinataire, Utilisateur utilisateur, Client client, Devise devise) {
+    public Colis(String reference, String qrCode, String codeLivraison, double valeurColis, String description, String nomDestinataire, String contactDestinataire, String adresseDestinataire, Date createAt, Date updateAt, int enable, EnregistrementColis enregistrementColis, ExpeditionColis expeditionColis, ArriveeColis arriveeColis, ReceptionColis receptionColis, LivraisonColis livraisonColis, Site siteExpediteur, Site siteDestinataire, Utilisateur utilisateur, Client client, Devise devise) {
         this.reference = reference;
         this.qrCode = qrCode;
         this.valeurColis = valeurColis;
@@ -108,6 +109,7 @@ public class Colis {
         this.utilisateur = utilisateur;
         this.client = client;
         this.devise = devise;
+        this.codeLivraison = codeLivraison;
     }
 
     public Long getId() {
@@ -132,6 +134,14 @@ public class Colis {
 
     public void setQrCode(String qrCode) {
         this.qrCode = qrCode;
+    }
+
+    public String getCodeLivraison() {
+        return codeLivraison;
+    }
+
+    public void setCodeLivraison(String codeLivraison) {
+        this.codeLivraison = codeLivraison;
     }
 
     public double getValeurColis() {

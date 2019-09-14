@@ -8,6 +8,5 @@ import org.springframework.transaction.annotation.Transactional;
 public interface LivraisonColisRepository extends PagingAndSortingRepository<LivraisonColis,Long> {
 
     public LivraisonColis getLivraisonColisById(long id);
-    
 
 }

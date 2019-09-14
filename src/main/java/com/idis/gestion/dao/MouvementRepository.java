@@ -65,6 +65,7 @@ public interface MouvementRepository extends PagingAndSortingRepository<Facture,
     @Query("update Mouvement m set m.enable = 1, m.updateAt = ?2 where m.id = ?1")
     public void enableFacture(Long id, Date date);
 
+    @Modifying
     public void removeFactureById(Long id);
 
 

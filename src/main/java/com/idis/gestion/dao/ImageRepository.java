@@ -4,6 +4,7 @@ import com.idis.gestion.entities.Image;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
@@ -21,5 +22,7 @@ public interface ImageRepository extends JpaRepository<Image,Long> {
     @Query("update Image i set i.enable = 0, i.updateAt = ?2 where i.id = ?1")
     public void disableImage(Long id, Date date);
 
-    public void removeImageById(Long id);
+    @Modifying
+    @Query("delete from Image i where i.id = :id")
+    public void removeImageById(@Param("id") Long id);
 }

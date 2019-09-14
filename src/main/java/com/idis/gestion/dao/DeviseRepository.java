@@ -25,6 +25,7 @@ public interface DeviseRepository extends PagingAndSortingRepository<Devise,Long
     @Query("update Devise d set d.enable = 1, d.updateAt = ?2 where d.id = ?1")
     public void enableDevise(Long id, Date date);
 
+    @Modifying
     public void removeDeviseById(Long id);
 
     @Query("select d from Devise d where (d.enable = :enable or :enable = 2)")

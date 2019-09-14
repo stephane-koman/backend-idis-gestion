@@ -25,6 +25,7 @@ public interface ReglementRepository extends PagingAndSortingRepository<Reglemen
     @Query("update Reglement r set r.enable = 1, r.updateAt = ?2 where r.id = ?1")
     public void enableReglement(Long id, Date date);
 
+    @Modifying
     public void removeReglementById(Long id);
 
     @Query("select r from Reglement r " +

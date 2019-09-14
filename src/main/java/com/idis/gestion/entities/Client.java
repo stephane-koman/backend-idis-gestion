@@ -15,11 +15,15 @@ public class Client extends Personne {
     private String codeClient;
 
     @Column(columnDefinition = "text")
-    private String domaineActivite;
+    private String responsable;
 
     @JsonIgnore
     @OneToMany(mappedBy = "client", fetch = FetchType.LAZY, cascade=CascadeType.REMOVE, orphanRemoval = true)
     private Collection<Colis> colis = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(name = "code_domaine_activite")
+    private DomaineActivite domaineActivite;
 
     public Client() {
     }
@@ -32,11 +36,19 @@ public class Client extends Personne {
         return codeClient;
     }
 
-    public String getDomaineActivite() {
+    public String getResponsable() {
+        return responsable;
+    }
+
+    public void setResponsable(String responsable) {
+        this.responsable = responsable;
+    }
+
+    public DomaineActivite getDomaineActivite() {
         return domaineActivite;
     }
 
-    public void setDomaineActivite(String domaineActivite) {
+    public void setDomaineActivite(DomaineActivite domaineActivite) {
         this.domaineActivite = domaineActivite;
     }
 

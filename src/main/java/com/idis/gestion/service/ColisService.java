@@ -6,6 +6,7 @@ import com.idis.gestion.entities.Utilisateur;
 import com.idis.gestion.service.pagination.PageColis;
 import net.sf.jasperreports.engine.JasperPrint;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.SQLException;
 import java.util.Collection;
@@ -16,7 +17,7 @@ public interface ColisService {
 
     public JasperPrint exportQrCodePdf(String referenceColis) throws SQLException;
 
-    public Colis saveColis(Colis c, String codeSite);
+    public Colis saveColis(Colis c, String codeSite, MultipartFile[] images);
 
     public void addDetailsColis(Collection<DetailsColis> dColis, Colis colis);
     public double updateDetailsColis(Collection<DetailsColis> dColis, Colis colis);
@@ -25,7 +26,7 @@ public interface ColisService {
 
     public Colis findColisByReference(String ref);
 
-    public Colis updateColis(Colis c);
+    public Colis updateColis(Colis c, MultipartFile[] images);
 
     public PageColis listColis(
             String reference,

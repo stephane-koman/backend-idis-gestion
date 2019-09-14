@@ -13,6 +13,7 @@ public class Image {
     private Long id;
 
     private String nomImage;
+    
     @Lob
     private byte[] file;
 

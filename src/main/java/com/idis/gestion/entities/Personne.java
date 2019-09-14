@@ -17,7 +17,7 @@ import java.util.Date;
         @JsonSubTypes.Type(name = "CLIENT", value = Client.class),
         @JsonSubTypes.Type(name = "EMPLOYE", value = Employe.class)
 })
-public abstract class Personne {
+public class Personne {
     @Id
     @GeneratedValue
     private Long id;

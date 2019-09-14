@@ -26,6 +26,7 @@ public interface TypeFactureRepository extends PagingAndSortingRepository<TypeFa
     @Query("update TypeFacture tf set tf.enable = 1, tf.updateAt = ?2 where tf.id = ?1")
     public void enableTypeFacture(Long id, Date date);
 
+    @Modifying
     public void removeTypeFactureById(Long id);
 
     @Query("select tf from TypeFacture tf where (tf.enable = :enable or :enable = 2)")

@@ -87,6 +87,7 @@ public class PersonneServiceImpl implements PersonneService {
         client.setEnable(c.getEnable());
         client.setImage(c.getImage());
         client.setRaisonSociale(c.getRaisonSociale());
+        client.setResponsable(c.getResponsable());
         client.setUpdateAt(new Date());
         client.setDomaineActivite(c.getDomaineActivite());
         return personneRepository.save(client);

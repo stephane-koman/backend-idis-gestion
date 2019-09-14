@@ -26,6 +26,7 @@ public interface PaysRepository extends PagingAndSortingRepository<Pays,Long> {
     @Query("update Pays p set p.enable = 1, p.updateAt = ?2 where p.id = ?1")
     public void enablePays(Long id, Date date);
 
+    @Modifying
     public void removePaysById(Long id);
 
     @Query("select p from Pays p where (p.enable = :enable or :enable = 2)")

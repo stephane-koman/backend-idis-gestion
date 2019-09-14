@@ -38,5 +38,6 @@ public interface UtilisateurRepository extends PagingAndSortingRepository<Utilis
     @Query("update Utilisateur u set u.enable = 1, u.updateAt = ?2 where u.id = ?1")
     public void enableUser(Long id, Date date);
 
+    @Modifying
     public void removeUtilisateurById(Long id);
 }

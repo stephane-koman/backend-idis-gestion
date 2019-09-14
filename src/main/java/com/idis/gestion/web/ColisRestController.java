@@ -1,5 +1,7 @@
 package com.idis.gestion.web;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.*;
 import com.idis.gestion.entities.*;
 import com.idis.gestion.service.ColisService;
 import com.idis.gestion.service.PersonneService;
@@ -12,6 +14,7 @@ import net.sf.jasperreports.engine.JasperPrint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -35,13 +38,16 @@ public class ColisRestController {
 
     private HeadersControls headersControls = new HeadersControls();
 
-    @PostMapping(value = "/user/add-colis")
+    @PostMapping(value = "/user/add-colis-files")
     public Colis addColis(
             @RequestHeader(value = "Authorization") String jwt,
-            @RequestBody Colis colis
-    ){
+            @RequestParam("images") MultipartFile[] images,
+            @RequestParam("colis") String colisString
+    ) throws IOException {
         String username = headersControls.getUsername(jwt);
         Utilisateur utilisateur = utilisateurService.findUserByUsername(username);
+
+        Colis colis = new ObjectMapper().readValue(colisString, Colis.class);
 
         colis.setUtilisateur(utilisateur);
 
@@ -49,7 +55,17 @@ public class ColisRestController {
         Employe employe = personneService.getEmployeById(utilisateur.getPersonne().getId());
         colis.setSiteExpediteur(employe.getSite());
         colis.setDevise(employe.getSite().getDevise());
-        return colisService.saveColis(colis, employe.getSite().getCodeSite());
+        return colisService.saveColis(colis, employe.getSite().getCodeSite(), images);
+    }
+
+    @PostMapping(value = "/user/update-colis-files")
+    public Colis updateColis(
+            @RequestParam("images") MultipartFile[] images,
+            @RequestParam("colis") String colisString
+    ) throws IOException {
+
+        Colis colis = new ObjectMapper().readValue(colisString, Colis.class);
+        return colisService.updateColis(colis, images);
     }
 
     @GetMapping(value = "/admin/search-colis")
@@ -157,13 +173,6 @@ public class ColisRestController {
             e.printStackTrace();
         }
 
-    }
-
-    @PostMapping(value = "/user/update-colis")
-    public Colis updateColis(
-            @RequestBody Colis colis
-    ){
-        return colisService.updateColis(colis);
     }
 
     @PostMapping(value = "/user/disable-colis")

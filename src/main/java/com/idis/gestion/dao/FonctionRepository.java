@@ -26,6 +26,7 @@ public interface FonctionRepository extends PagingAndSortingRepository<Fonction,
     @Query("update Fonction f set f.enable = 1, f.updateAt = ?2 where f.id = ?1")
     public void enableFonction(Long id, Date date);
 
+    @Modifying
     public void removeFonctionById(Long id);
 
     @Query("select f from Fonction f where (f.enable = :enable or :enable = 2)")

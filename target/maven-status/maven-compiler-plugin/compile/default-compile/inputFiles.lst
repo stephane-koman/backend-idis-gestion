@@ -27,6 +27,7 @@
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/dao/UtilisateurRepository.java
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/service/impl/DeviseServiceImpl.java
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/entities/ExpeditionColis.java
+/home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/web/DomaineActiviteRestController.java
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/entities/Role.java
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/dao/PersonneRepository.java
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/entities/Personne.java
@@ -35,6 +36,7 @@
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/dao/LivraisonColisRepository.java
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/entities/Reglement.java
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/service/impl/UserDetailsServiceImpl.java
+/home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/entities/DomaineActivite.java
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/dao/DetailsColisRepository.java
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/dao/TvaRepository.java
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/service/impl/TvaServiceImpl.java
@@ -44,6 +46,7 @@
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/dao/TypeFactureRepository.java
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/service/MouvementService.java
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/dao/EnregistrementColisRepository.java
+/home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/service/impl/DomaineActiviteServiceImpl.java
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/service/pagination/PageTva.java
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/service/pagination/PageRole.java
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/web/TypeFactureRestController.java
@@ -52,6 +55,7 @@
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/service/pagination/PageFonction.java
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/entities/LivraisonColis.java
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/service/FonctionService.java
+/home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/entities/generator/CodeLivraisonGenerator.java
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/dao/ColisRepository.java
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/security/SecurityConstants.java
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/service/impl/PaysServiceImpl.java
@@ -59,6 +63,7 @@
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/service/impl/MouvementServiceImpl.java
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/entities/DetailsColis.java
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/entities/Utilisateur.java
+/home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/service/pagination/PageDomaineActivite.java
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/web/FonctionRestController.java
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/service/PersonneService.java
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/dao/DeviseRepository.java
@@ -78,6 +83,7 @@
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/entities/TypeReglement.java
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/entities/generator/EmpMatrGenerator.java
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/service/impl/DetailsColisImpl.java
+/home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/exception/MyFileNotFoundException.java
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/entities/generator/SwithGenerator.java
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/service/pagination/PageSite.java
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/web/PaysRestController.java
@@ -103,6 +109,7 @@
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/entities/Client.java
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/dao/ArriveeColisRepository.java
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/service/pagination/PageMouvement.java
+/home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/service/DomaineActiviteService.java
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/service/pagination/PageClient.java
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/dao/PaysRepository.java
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/entities/Image.java
@@ -113,7 +120,9 @@
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/security/JWTAuthenticationFilter.java
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/service/pagination/PageUtilisateur.java
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/service/DetailsColisService.java
+/home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/dao/DomaineActiviteRepository.java
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/web/controls/HeadersControls.java
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/dao/FonctionRepository.java
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/service/impl/FonctionServiceImpl.java
+/home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/exception/FileStorageException.java
 /home/stephane/Documents/IDIS/backend-idis-gestion/src/main/java/com/idis/gestion/dao/ReceptionColisRepository.java

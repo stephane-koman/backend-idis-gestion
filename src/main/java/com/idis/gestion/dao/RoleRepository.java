@@ -33,5 +33,6 @@ public interface RoleRepository extends PagingAndSortingRepository<Role,Long> {
     @Query("update Role r set r.enable = 1, r.updateAt = ?2 where r.id = ?1")
     public void enableRole(Long id, Date date);
 
+    @Modifying
     public void removeRoleById(Long id);
 }
