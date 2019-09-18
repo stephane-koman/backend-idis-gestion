@@ -122,19 +122,19 @@ public interface ColisRepository extends PagingAndSortingRepository<Colis,String
             "left join c.siteExpediteur site " +
             "where site.id = :idSite " +
             "and (c.enable = :enable or :enable=2)")
-    public int countSendColis(@Param("idSite") Long idSite, @Param("enable")int enable);
+    public Long countSendColis(@Param("idSite") Long idSite, @Param("enable")int enable);
 
     @Query("select count(c) from Colis c " +
             "left join c.siteDestinataire site " +
             "where site.id = :idSite " +
             "and c.expeditionColis is not null " +
             "and (c.enable = :enable or :enable=2)")
-    public int countReceiveColis(@Param("idSite") Long idSite, @Param("enable")int enable);
+    public Long countReceiveColis(@Param("idSite") Long idSite, @Param("enable")int enable);
 
     @Query("select count(c) from Colis c " +
             "left join c.client clt " +
             "where (clt.id = :idClient) " +
             "and (c.enable = :enable or :enable=2)")
-    public int countClientColis(@Param("idClient")Long idClient, @Param("enable")int enable);
+    public Long countClientColis(@Param("idClient")Long idClient, @Param("enable")int enable);
 
 }

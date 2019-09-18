@@ -15,6 +15,7 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import org.apache.commons.math3.util.Precision;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -28,6 +29,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.text.NumberFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -69,20 +71,20 @@ public class ColisServiceImpl implements ColisService {
     private JdbcTemplate jdbcTemplate;
 
     @Override
-    public Colis saveColis(Colis c, String codeSite, MultipartFile[] images) {
+    public Colis saveColis(Colis c, Site site, MultipartFile[] images) {
 
         c.setCreateAt(new Date());
         c.setUpdateAt(new Date());
 
-        ReferenceColisGenerator generator = new ReferenceColisGenerator();
-        CodeLivraisonGenerator livraisonGenerator = new CodeLivraisonGenerator();
+        ReferenceColisGenerator generator = new ReferenceColisGenerator(colisRepository);
+        CodeLivraisonGenerator livraisonGenerator = new CodeLivraisonGenerator(colisRepository);
 
         Colis colis = colisRepository.save(c);
 
         addDetailsColis(c.getDetailsColis(), colis);
 
-        String reference = generator.generate(colis.getId(), codeSite);
-        String codeLivraison = livraisonGenerator.generate( colis.getId(), colis.getSiteExpediteur().getCodeSite() );
+        String reference = generator.generate(site.getId());
+        String codeLivraison = livraisonGenerator.generate(colis.getSiteExpediteur().getId());
 
         colis.setReference(reference);
         colis.setQrCode(reference);
@@ -124,8 +126,8 @@ public class ColisServiceImpl implements ColisService {
         colis.setLivraisonColis(c.getLivraisonColis());
 
         if(colis.getCodeLivraison() == null){
-            CodeLivraisonGenerator livraisonGenerator = new CodeLivraisonGenerator();
-            String codeLivraison = livraisonGenerator.generate( colis.getId(), colis.getSiteExpediteur().getCodeSite() );
+            CodeLivraisonGenerator livraisonGenerator = new CodeLivraisonGenerator(colisRepository);
+            String codeLivraison = livraisonGenerator.generate(colis.getSiteExpediteur().getId());
             colis.setCodeLivraison( codeLivraison );
         }
 
@@ -249,14 +251,18 @@ public class ColisServiceImpl implements ColisService {
 
     @Override
     public double updateDetailsColis(Collection<DetailsColis> dColis, Colis colis) {
+
         List<DetailsColis> detailsColis = new ArrayList<>();
         double[] montant = new double[1];
         montant[0] = 0;
+
         if (dColis.size() > 0) {
             dColis.forEach((dc) -> {
                 dc.setColis(colis);
                 DetailsColis deColis;
-                dc.setPrixTotal(dc.getPrixUnitaire()*dc.getPoids());
+
+                dc.setPrixTotal(Precision.round( dc.getPrixUnitaire()*dc.getPoids(), 2 ));
+
                 deColis = detailsColisService.updateDetailsColis(dc);
                 detailsColis.add(deColis);
                 montant[0] += dc.getPrixTotal();
@@ -268,12 +274,16 @@ public class ColisServiceImpl implements ColisService {
 
     @Override
     public void addDetailsColis(Collection<DetailsColis> dColis, Colis colis) {
+
         List<DetailsColis> detailsColis = new ArrayList<>();
+
         if (dColis.size() > 0) {
             dColis.forEach((dc) -> {
                 dc.setColis(colis);
                 DetailsColis deColis;
-                dc.setPrixTotal(dc.getPrixUnitaire()*dc.getPoids());
+
+                dc.setPrixTotal( Precision.round( dc.getPrixUnitaire()*dc.getPoids(), 2 ) );
+
                 deColis = detailsColisService.saveDetailsColis(dc);
                 detailsColis.add(deColis);
             });
@@ -436,29 +446,20 @@ public class ColisServiceImpl implements ColisService {
 
     @Override
     public String countSendColis(Long idSite, int enable) {
-        int value = colisRepository.countSendColis(idSite, enable);
-        String countString = String.valueOf(value);
-        Count count = new Count();
-        countString = count.count(countString, value);
-        return countString;
+        Long value = colisRepository.countSendColis(idSite, enable);
+        return value.toString();
     }
 
     @Override
     public String countReceiveColis(Long idSite, int enable) {
-        int value = colisRepository.countReceiveColis(idSite, enable);
-        String countString = String.valueOf(value);
-        Count count = new Count();
-        countString = count.count(countString, value);
-        return countString;
+        Long value = colisRepository.countReceiveColis(idSite, enable);
+        return value.toString();
     }
 
     @Override
     public String countClientColis(Long idClient, int enable) {
-        int value = colisRepository.countClientColis(idClient, enable);
-        String countString = String.valueOf(value);
-        Count count = new Count();
-        countString = count.count(countString, value);
-        return countString;
+        Long value = colisRepository.countClientColis(idClient, enable);
+        return value.toString();
     }
 
     @Override

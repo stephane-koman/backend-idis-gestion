@@ -55,7 +55,7 @@ public class ColisRestController {
         Employe employe = personneService.getEmployeById(utilisateur.getPersonne().getId());
         colis.setSiteExpediteur(employe.getSite());
         colis.setDevise(employe.getSite().getDevise());
-        return colisService.saveColis(colis, employe.getSite().getCodeSite(), images);
+        return colisService.saveColis(colis, employe.getSite(), images);
     }
 
     @PostMapping(value = "/user/update-colis-files")

@@ -68,5 +68,10 @@ public interface MouvementRepository extends PagingAndSortingRepository<Facture,
     @Modifying
     public void removeFactureById(Long id);
 
+    @Query("select count(f) from Facture f " +
+            "inner join f.typeFacture tf " +
+            "where lower(tf.nomTypeFacture) = lower(:type) " +
+            "and (f.enable = :enable or :enable=2)")
+    public Long countFactures(@Param("type") String type, @Param("enable")int enable);
 
 }

@@ -13,6 +13,7 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import org.apache.commons.math3.util.Precision;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -25,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.text.NumberFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -61,8 +63,8 @@ public class ReglementServiceImpl implements ReglementService {
 
         Reglement reglement = reglementRepository.save(r);
 
-        NumeroReglementGenerator generatorReglement = new NumeroReglementGenerator();
-        String numeroReglement = generatorReglement.generate(reglement.getId());
+        NumeroReglementGenerator generatorReglement = new NumeroReglementGenerator(reglementRepository);
+        String numeroReglement = generatorReglement.generate();
         reglement.setNumeroReglement(numeroReglement);
 
         return reglement;
@@ -106,7 +108,7 @@ public class ReglementServiceImpl implements ReglementService {
             montant[0] = montant[0] + r.getMontantRegle();
         }
 
-        f.setMontantFactureRegle(montant[0]);
+        f.setMontantFactureRegle( Precision.round( montant[0], 2 ) );
         mouvementRepository.save(f);
     }
 

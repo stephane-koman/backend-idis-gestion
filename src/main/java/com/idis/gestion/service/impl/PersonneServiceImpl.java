@@ -40,8 +40,8 @@ public class PersonneServiceImpl implements PersonneService {
 
         Employe employe = personneRepository.save(e);
 
-        EmpMatrGenerator empMatrGenerator = new EmpMatrGenerator();
-        String matricule = empMatrGenerator.generate(employe.getId());
+        EmpMatrGenerator empMatrGenerator = new EmpMatrGenerator(personneRepository);
+        String matricule = empMatrGenerator.generate();
         employe.setMatricule(matricule);
 
         return employe;
@@ -55,8 +55,8 @@ public class PersonneServiceImpl implements PersonneService {
 
         Client client = personneRepository.save(c);
 
-        CodeClientGenerator codeClientGenerator = new CodeClientGenerator();
-        String cpteClt = codeClientGenerator.generate(client.getId());
+        CodeClientGenerator codeClientGenerator = new CodeClientGenerator(personneRepository);
+        String cpteClt = codeClientGenerator.generate();
         client.setCodeClient(cpteClt);
         return client;
     }
@@ -187,20 +187,14 @@ public class PersonneServiceImpl implements PersonneService {
 
     @Override
     public String countClients(int enable) {
-        int value = personneRepository.countClients(enable);
-        String countString = String.valueOf(value);
-        Count count = new Count();
-        countString = count.count(countString, value);
-        return countString;
+        Long value = personneRepository.countClients(enable);
+        return value.toString();
     }
 
     @Override
     public String countEmployes(int enable) {
-        int value = personneRepository.countEmployes(enable);
-        String countString = String.valueOf(value);
-        Count count = new Count();
-        countString = count.count(countString, value);
-        return countString;
+        Long value = personneRepository.countEmployes(enable);
+        return value.toString();
     }
 
 

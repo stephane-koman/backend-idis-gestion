@@ -12,6 +12,7 @@ import com.idis.gestion.service.pagination.PageFacture;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import org.apache.commons.math3.util.Precision;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -28,6 +29,7 @@ import java.io.*;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.text.NumberFormat;
 import java.util.*;
 
 import static net.sf.jasperreports.engine.JasperCompileManager.compileReport;
@@ -65,14 +67,14 @@ public class MouvementServiceImpl implements MouvementService {
 
         switch (facture.getTypeFacture().getNomTypeFacture().toLowerCase()) {
             case "facture":
-                NumeroFactureGenerator generatorFacture = new NumeroFactureGenerator();
-                String numeroFacture = generatorFacture.generate(facture.getId());
+                NumeroFactureGenerator generatorFacture = new NumeroFactureGenerator(mouvementRepository);
+                String numeroFacture = generatorFacture.generate();
                 facture.setNumeroFacture(numeroFacture);
                 facture.setDebit(montant);
                 break;
             case "avoir":
-                NumeroAvoirGenerator generatorAvoir = new NumeroAvoirGenerator();
-                String numeroAvoir = generatorAvoir.generate(facture.getId());
+                NumeroAvoirGenerator generatorAvoir = new NumeroAvoirGenerator(mouvementRepository);
+                String numeroAvoir = generatorAvoir.generate();
                 facture.setNumeroFacture(numeroAvoir);
                 facture.setCredit(montant);
                 break;
@@ -161,7 +163,8 @@ public class MouvementServiceImpl implements MouvementService {
     private double montantFacture(Facture facture) {
         double[] montant = new double[1];
         montant[0] = colisService.updateDetailsColis(facture.getColis().getDetailsColis(), facture.getColis());
-        return (1 + facture.getTva().getValeurTva()) * montant[0];
+
+        return Precision.round( (1 + facture.getTva().getValeurTva()) * montant[0], 2 );
     }
 
     @Override

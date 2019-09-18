@@ -81,9 +81,9 @@ public interface PersonneRepository extends PagingAndSortingRepository<Personne,
 
     @Query("select count(e) from Employe e " +
             "where (e.enable = :enable or :enable = 2)")
-    public int countEmployes(@Param("enable")int enable);
+    public Long countEmployes(@Param("enable")int enable);
 
     @Query("select count(c) from Client c " +
             "where (c.enable = :enable or :enable = 2)")
-    public int countClients(@Param("enable")int enable);
+    public Long countClients(@Param("enable")int enable);
 }
